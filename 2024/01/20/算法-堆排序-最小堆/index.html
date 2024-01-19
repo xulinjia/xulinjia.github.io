@@ -19,23 +19,30 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.18.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
 
-    <meta property="og:type" content="website">
-<meta property="og:title" content="徐麟家的博客">
-<meta property="og:url" content="http://example.com/index.html">
+    <meta name="description" content="堆排序算法复杂度为【O(nlgn)】,分最大堆排序和最小堆排序：最大堆定义为所有父节点比左右子节点大。反之亦反，就是最小堆了！ 这里我用最小堆来阐述算法。首先需要了解下完全二叉数结构，可以把一个数组看出一个完全二叉树。数组第1个元素看做为根节点， 可定义： 1、 左子树Left(i) &#x3D; i * 2 2、 右子树Right(i) &#x3D; i * 2 + 1 3、 父节点Parent(i) &#x3D; i &#x2F;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="算法-堆排序-最小堆">
+<meta property="og:url" content="http://example.com/2024/01/20/%E7%AE%97%E6%B3%95-%E5%A0%86%E6%8E%92%E5%BA%8F-%E6%9C%80%E5%B0%8F%E5%A0%86/index.html">
 <meta property="og:site_name" content="徐麟家的博客">
+<meta property="og:description" content="堆排序算法复杂度为【O(nlgn)】,分最大堆排序和最小堆排序：最大堆定义为所有父节点比左右子节点大。反之亦反，就是最小堆了！ 这里我用最小堆来阐述算法。首先需要了解下完全二叉数结构，可以把一个数组看出一个完全二叉树。数组第1个元素看做为根节点， 可定义： 1、 左子树Left(i) &#x3D; i * 2 2、 右子树Right(i) &#x3D; i * 2 + 1 3、 父节点Parent(i) &#x3D; i &#x2F;">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2024/01/20/%E7%AE%97%E6%B3%95-%E5%A0%86%E6%8E%92%E5%BA%8F-%E6%9C%80%E5%B0%8F%E5%A0%86/20240120005725_1.jpg">
+<meta property="article:published_time" content="2024-01-19T17:09:47.000Z">
+<meta property="article:modified_time" content="2024-01-19T17:09:47.065Z">
 <meta property="article:author" content="xulinjia">
+<meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2024/01/20/%E7%AE%97%E6%B3%95-%E5%A0%86%E6%8E%92%E5%BA%8F-%E6%9C%80%E5%B0%8F%E5%A0%86/20240120005725_1.jpg">
 
 
-<link rel="canonical" href="http://example.com/">
+<link rel="canonical" href="http://example.com/2024/01/20/%E7%AE%97%E6%B3%95-%E5%A0%86%E6%8E%92%E5%BA%8F-%E6%9C%80%E5%B0%8F%E5%A0%86/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":true,"isPost":false,"lang":"zh-CN","comments":"","permalink":"","path":"index.html","title":""}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2024/01/20/%E7%AE%97%E6%B3%95-%E5%A0%86%E6%8E%92%E5%BA%8F-%E6%9C%80%E5%B0%8F%E5%A0%86/","path":"2024/01/20/算法-堆排序-最小堆/","title":"算法-堆排序-最小堆"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>徐麟家的博客</title>
+<title>算法-堆排序-最小堆 | 徐麟家的博客</title>
   
 
 
@@ -68,7 +75,7 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <h1 class="site-title">徐麟家的博客</h1>
+      <p class="site-title">徐麟家的博客</p>
       <i class="logo-line"></i>
     </a>
       <p class="site-subtitle" itemprop="description">站在巨人的肩膀上</p>
@@ -147,16 +154,17 @@
 
     </div>
 
-    <div class="main-inner index posts-expand">
+    <div class="main-inner post posts-expand">
 
-    
+
+  
 
 
 <div class="post-block">
   
   
 
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/20/%E7%AE%97%E6%B3%95-%E5%A0%86%E6%8E%92%E5%BA%8F-%E6%9C%80%E5%B0%8F%E5%A0%86/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -170,13 +178,13 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 徐麟家的博客">
+      <meta itemprop="name" content="算法-堆排序-最小堆 | 徐麟家的博客">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/01/20/%E7%AE%97%E6%B3%95-%E5%A0%86%E6%8E%92%E5%BA%8F-%E6%9C%80%E5%B0%8F%E5%A0%86/" class="post-title-link" itemprop="url">算法-堆排序-最小堆</a>
-        </h2>
+        <h1 class="post-title" itemprop="name headline">
+          算法-堆排序-最小堆
+        </h1>
 
         <div class="post-meta-container">
           <div class="post-meta">
@@ -207,6 +215,13 @@
     </span>
 
   
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
 </div>
 
         </div>
@@ -215,8 +230,7 @@
     
     
     
-    <div class="post-body" itemprop="articleBody">
-          <pre><code>堆排序算法复杂度为【O(nlgn)】,分最大堆排序和最小堆排序：最大堆定义为所有父节点比左右子节点大。反之亦反，就是最小堆了！
+    <div class="post-body" itemprop="articleBody"><pre><code>堆排序算法复杂度为【O(nlgn)】,分最大堆排序和最小堆排序：最大堆定义为所有父节点比左右子节点大。反之亦反，就是最小堆了！
 这里我用最小堆来阐述算法。首先需要了解下完全二叉数结构，可以把一个数组看出一个完全二叉树。数组第1个元素看做为根节点，
 可定义：
 1、 左子树Left(i) = i * 2
@@ -236,7 +250,6 @@ b、建堆操作（循环调用最小堆操作，获得数组a中n个数据的�
 <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title">SortingSupport</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="built_in">delegate</span> <span class="built_in">bool</span> <span class="title">CompareLess</span>&lt;<span class="title">T</span>&gt;(<span class="params">T t1, T t2</span>)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Swap</span>&lt;<span class="title">T</span>&gt;(<span class="params">T[] a, <span class="built_in">int</span> i, <span class="built_in">int</span> j</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        T temp = a[i];</span><br><span class="line">        a[i] = a[j];</span><br><span class="line">        a[j] = temp;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">#<span class="keyword">region</span> 堆排序</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">HeapSort</span>&lt;<span class="title">T</span>&gt;(<span class="params">T[] a, CompareLess&lt;T&gt; cp</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">int</span> heapsize = a.Length;</span><br><span class="line">        BuildMinHeap(a, cp);</span><br><span class="line">        <span class="keyword">for</span> (<span class="built_in">int</span> i = a.Length; i &gt; <span class="number">1</span>; i--)</span><br><span class="line">        &#123;</span><br><span class="line">            Swap(a, <span class="number">0</span>, i - <span class="number">1</span>);</span><br><span class="line">            heapsize--;</span><br><span class="line">            MinHeapify(a, <span class="number">1</span>, heapsize, cp);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//建堆</span></span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">BuildMinHeap</span>&lt;<span class="title">T</span>&gt;(<span class="params">T[] a, CompareLess&lt;T&gt; cp</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">int</span> heapSize = a.Length;</span><br><span class="line">        <span class="keyword">for</span> (<span class="built_in">int</span> i = a.Length / <span class="number">2</span>; i &gt; <span class="number">0</span>; i--)</span><br><span class="line">            MinHeapify(a, i, heapSize, cp);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//堆下降</span></span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">MinHeapify</span>&lt;<span class="title">T</span>&gt;(<span class="params">T[] a, <span class="built_in">int</span> i, <span class="built_in">int</span> heapSize, CompareLess&lt;T&gt; cp</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">int</span> l = i &lt;&lt; <span class="number">1</span>;</span><br><span class="line">        <span class="built_in">int</span> r = (i &lt;&lt; <span class="number">1</span>) + <span class="number">1</span>;</span><br><span class="line">        <span class="built_in">int</span> min_pos = <span class="number">-1</span>;</span><br><span class="line">        <span class="keyword">if</span> (l &lt;= heapSize &amp;&amp; cp(a[l - <span class="number">1</span>], a[i - <span class="number">1</span>]))</span><br><span class="line">            min_pos = l;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            min_pos = i;</span><br><span class="line">        <span class="keyword">if</span> (r &lt;= heapSize &amp;&amp; cp(a[r - <span class="number">1</span>], a[min_pos - <span class="number">1</span>]))</span><br><span class="line">            min_pos = r;</span><br><span class="line">        <span class="keyword">if</span> (min_pos != i)</span><br><span class="line">        &#123;</span><br><span class="line">            Swap(a, min_pos - <span class="number">1</span>, i - <span class="number">1</span>);</span><br><span class="line">            MinHeapify(a, min_pos, heapSize, cp);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">#<span class="keyword">endregion</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <img src="/2024/01/20/%E7%AE%97%E6%B3%95-%E5%A0%86%E6%8E%92%E5%BA%8F-%E6%9C%80%E5%B0%8F%E5%A0%86/20240120005725_1.jpg" class="">
 
-      
     </div>
 
     
@@ -244,205 +257,25 @@ b、建堆操作（循环调用最小堆操作，获得数组a中n个数据的�
     
 
     <footer class="post-footer">
-        <div class="post-eof"></div>
-      
+          <div class="post-tags">
+              <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/12/14/%E7%AE%97%E6%B3%95-%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/" rel="prev" title="算法-快速排序">
+                  <i class="fa fa-angle-left"></i> 算法-快速排序
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
     </footer>
   </article>
 </div>
 
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/12/14/%E7%AE%97%E6%B3%95-%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="xulinjia">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="徐麟家的博客">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 徐麟家的博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/12/14/%E7%AE%97%E6%B3%95-%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/" class="post-title-link" itemprop="url">算法-快速排序</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2023-12-14 13:18:48" itemprop="dateCreated datePublished" datetime="2023-12-14T13:18:48+08:00">2023-12-14</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-01-17 01:04:09" itemprop="dateModified" datetime="2024-01-17T01:04:09+08:00">2024-01-17</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E7%AE%97%E6%B3%95/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">排序算法</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E7%AE%97%E6%B3%95/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/" itemprop="url" rel="index"><span itemprop="name">快速排序</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <pre><code>关于排序算法，不得不说排序算法。排序算法被认为是冒泡算法的优化，以优异的平均算法复杂度【O(nlgn)】而著名。
-算法思想主要分为2个步骤：
-（1）划分数组a[p..r]为两个子数组a[p,i-1],a[i+1,r],使得a[p,i-1]中的数都小于等于a[i],a[i+1,r]中的数都大于等于a[i] 
-（2）递归对a[p,i-1],a[i+1,r]分别排序
-*算法核心是如何分割为比基准数小的数组和比基准数大的数组，对应一下Partition方法
-下面是代码部分：
-</code></pre>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title">SortingSupport</span> </span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="built_in">delegate</span> <span class="built_in">bool</span> <span class="title">CompareLess</span>&lt;<span class="title">T</span>&gt;(<span class="params">T t1, T t2</span>)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Swap</span>&lt;<span class="title">T</span>&gt;(<span class="params">T[] a, <span class="built_in">int</span> i, <span class="built_in">int</span> j</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        T temp = a[i];</span><br><span class="line">        a[i] = a[j];</span><br><span class="line">        a[j] = temp;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">#<span class="keyword">region</span> 快速排序</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">QuickSort</span>&lt;<span class="title">T</span>&gt;(<span class="params">T[] a, CompareLess&lt;T&gt; cp</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        QSort(a, <span class="number">0</span>, a.Length - <span class="number">1</span>, cp);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> *递归保证子数组有序</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">QSort</span>&lt;<span class="title">T</span>&gt;(<span class="params">T[] a,<span class="built_in">int</span> p,<span class="built_in">int</span> r, CompareLess&lt;T&gt; cp</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (p &gt;= r)</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        <span class="built_in">int</span> i = Partition(a, p, r, cp);</span><br><span class="line">        QSort(a, p, i - <span class="number">1</span>, cp);</span><br><span class="line">        QSort(a, i + <span class="number">1</span>, r, cp);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> *分割数字保证所有 a[p..i-1] <span class="doctag">&lt;= p[i] &amp;&amp; a[i+i..r] &gt;</span>= p[i]</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="built_in">int</span> <span class="title">Partition</span>&lt;<span class="title">T</span>&gt;(<span class="params">T[] a,<span class="built_in">int</span> p, <span class="built_in">int</span> r, CompareLess&lt;T&gt; cp</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        T x = a[r];</span><br><span class="line">        <span class="built_in">int</span> i = p - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="built_in">int</span> j = p;j &lt; r ;j ++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(cp(a[j],x))</span><br><span class="line">            &#123;</span><br><span class="line">                i++;</span><br><span class="line">                Swap(a, i, j);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        Swap(a, i + <span class="number">1</span>, r);</span><br><span class="line">        <span class="keyword">return</span> i + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">#<span class="keyword">endregion</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<img src="/2023/12/14/%E7%AE%97%E6%B3%95-%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/180207165418120.jpg" class="">
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/09/13/UGUI%E4%BA%8B%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%B2%BE%E8%A6%81-%E4%B8%80/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="xulinjia">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="徐麟家的博客">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 徐麟家的博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/09/13/UGUI%E4%BA%8B%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%B2%BE%E8%A6%81-%E4%B8%80/" class="post-title-link" itemprop="url">UGUI事件系统精要(一)-事件处理流程</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2023-09-13 13:01:10" itemprop="dateCreated datePublished" datetime="2023-09-13T13:01:10+08:00">2023-09-13</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-01-15 20:42:30" itemprop="dateModified" datetime="2024-01-15T20:42:30+08:00">2024-01-15</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Unity/" itemprop="url" rel="index"><span itemprop="name">Unity</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Unity/UGUI/" itemprop="url" rel="index"><span itemprop="name">UGUI</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>EventSystem作为控制类操作BaseInput,BaseRaycaster</p>
-<p>BaseInput 相当于一个unity Input 和 UGUI BaseInputModule 的媒介类，BaseInputModule只跟BaseInput交互。<br>StandaloneInputModule-&gt;PointerInputModule,TouchInputModule-&gt;PointerInputModule,PointerInputModule-&gt;BaseInputModule<br>EventSystem 调用 BaseInputModule.Process() 处理来自unity的所有功能</p>
-<p>RaycasterManager静态类管理所有的GraphicRaycaster，BaseRaycaster 激活是注册自己到RaycasterManager<br>GraphicRaycaster -&gt; BaseRaycaster,Physics2DRaycaster-&gt;PhysicsRaycaster-&gt;BaseRaycaster</p>
-<p>BaseRaycaster的关键,Raycast方法获得当前节点下Canvas的所有Graphic，并且进行检测触发排序（最终是Graphic.Raycast()）。<br>最总EventSystem.RaycastComparer方法比较，排序获得第一个graphic作为pointerCurrentRaycast。</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
 
 
 
