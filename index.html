@@ -120,18 +120,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-count">4</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">3</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -148,6 +148,95 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/03/28/%E6%B8%B8%E6%88%8F%E4%BC%98%E5%8C%96%E5%9F%BA%E6%9C%AC%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87%E4%BB%A5%E5%8F%8A%E8%AF%B4%E6%98%8E/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="xulinjia">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="徐麟家的博客">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 徐麟家的博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/03/28/%E6%B8%B8%E6%88%8F%E4%BC%98%E5%8C%96%E5%9F%BA%E6%9C%AC%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87%E4%BB%A5%E5%8F%8A%E8%AF%B4%E6%98%8E/" class="post-title-link" itemprop="url">游戏优化基本性能指标以及说明</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2024-03-28 22:06:39 / 修改时间：22:15:15" itemprop="dateCreated datePublished" datetime="2024-03-28T22:06:39+08:00">2024-03-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Unity/" itemprop="url" rel="index"><span itemprop="name">Unity</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Unity/%E5%BC%95%E6%93%8E/" itemprop="url" rel="index"><span itemprop="name">引擎</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>cpu：<br>通常对于游戏性能最直观的感受就是流畅性，表示流畅性最直接的指标就是帧率。不同种游戏类型对于帧率的要求并不一致，比如即时战斗的动作类游戏对于帧率更高的要求。为了打成对应的帧率，需要将CPU耗时控制住一定的数值范围内，对于30帧，总耗时需要控制在33ms以下，对应的模块也需要有对应的耗时范围，如下表所示，不过不同的游戏类型会有所差异。对于60帧或者更高帧率，依次换算对于数值即可。</p>
+<img src="/2024/03/28/%E6%B8%B8%E6%88%8F%E4%BC%98%E5%8C%96%E5%9F%BA%E6%9C%AC%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87%E4%BB%A5%E5%8F%8A%E8%AF%B4%E6%98%8E/cpu.jpg" class="">
+
+<p>内存：<br>在我们了解了内存相关的各项参数的含义之后，知道了避免游戏闪退的重点在于控制PSS内存峰值。而PSS内存的大头又在于Reserved Total中的资源内存和Mono堆内存。对于使用Lua的项目来说，还应关注Lua内存。<br>PSS内存峰值控制在硬件总内存的0.5-0.6倍以下的时候，闪退风险才较低。<br>而对于大多数项目而言，PSS内存大约高于Reserved Total 200MB-300MB左右，故2G设备的Reserved Total应控制在700MB以下、3G设备则控制在1G以下。</p>
+<img src="/2024/03/28/%E6%B8%B8%E6%88%8F%E4%BC%98%E5%8C%96%E5%9F%BA%E6%9C%AC%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87%E4%BB%A5%E5%8F%8A%E8%AF%B4%E6%98%8E/memory.jpg" class="">
+
+<p>渲染：<br>随着游戏对画质效果的要求越来越高，越来越多的项目遇到的性能瓶颈会来自于GPU的压力，GPU的压力会受到帧率，分辨率，三角形面片数，后处理，Shader复杂度，Overdraw等多方面的影响，因此我们对于不同分档的机型需要做一些对应的调整，在不同档位的机型上要做较为细致的区分，从而达到越高端的机型画质表现越好，而在低端机型上又能保证一定的流畅性。下表中可以当做一个模板，对于不同的游戏类型的需求可以再进一步调整，其中绿色的数值如果能达到的话会更优。</p>
+<img src="/2024/03/28/%E6%B8%B8%E6%88%8F%E4%BC%98%E5%8C%96%E5%9F%BA%E6%9C%AC%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87%E4%BB%A5%E5%8F%8A%E8%AF%B4%E6%98%8E/render.jpg" class="">
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
