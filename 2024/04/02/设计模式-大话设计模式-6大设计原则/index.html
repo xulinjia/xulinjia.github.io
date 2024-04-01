@@ -19,28 +19,35 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.18.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="EventSystem作为控制类操作BaseInput,BaseRaycaster BaseInput 相当于一个unity Input 和 UGUI BaseInputModule 的媒介类，BaseInputModule只跟BaseInput交互。StandaloneInputModule-&gt;PointerInputModule,TouchInputModule-&gt;PointerI">
+    <meta name="description" content="点评：在6个设计模式中，我认为单一职责和合成复用，我认为是最基础的，但却是最有用的；同时也是程序设计初学者最容易出问题的设计的两个设计原则：对此我的经验总结如下：1）、单一职责，告诉我们类的功能要单一，所以每个类存在自己的边界，必须分清楚各个类的功能划分，事件中可以一步一步来，化繁为简，逐步求精，当然也需要把握类的颗粒度。对此我的编程经验总结是：    a、对于某些实体类，根据现实世">
 <meta property="og:type" content="article">
-<meta property="og:title" content="UGUI事件系统精要(一)-事件处理流程">
-<meta property="og:url" content="http://example.com/2023/09/13/UGUI%E4%BA%8B%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%B2%BE%E8%A6%81-%E4%B8%80/index.html">
+<meta property="og:title" content="设计模式-大话设计模式-&gt;6大设计原则">
+<meta property="og:url" content="http://example.com/2024/04/02/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%A4%A7%E8%AF%9D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-6%E5%A4%A7%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99/index.html">
 <meta property="og:site_name" content="徐麟家的博客">
-<meta property="og:description" content="EventSystem作为控制类操作BaseInput,BaseRaycaster BaseInput 相当于一个unity Input 和 UGUI BaseInputModule 的媒介类，BaseInputModule只跟BaseInput交互。StandaloneInputModule-&gt;PointerInputModule,TouchInputModule-&gt;PointerI">
+<meta property="og:description" content="点评：在6个设计模式中，我认为单一职责和合成复用，我认为是最基础的，但却是最有用的；同时也是程序设计初学者最容易出问题的设计的两个设计原则：对此我的经验总结如下：1）、单一职责，告诉我们类的功能要单一，所以每个类存在自己的边界，必须分清楚各个类的功能划分，事件中可以一步一步来，化繁为简，逐步求精，当然也需要把握类的颗粒度。对此我的编程经验总结是：    a、对于某些实体类，根据现实世">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-09-13T05:01:10.000Z">
-<meta property="article:modified_time" content="2024-01-15T12:42:30.917Z">
+<meta property="og:image" content="http://example.com/2024/04/02/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%A4%A7%E8%AF%9D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-6%E5%A4%A7%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99/%E5%8D%95%E4%B8%80%E8%81%8C%E8%B4%A3%E5%8E%9F%E5%88%99.png">
+<meta property="og:image" content="http://example.com/2024/04/02/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%A4%A7%E8%AF%9D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-6%E5%A4%A7%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99/%E5%BC%80%E6%94%BE%E5%B0%81%E9%97%AD%E5%8E%9F%E5%88%99.png">
+<meta property="og:image" content="http://example.com/2024/04/02/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%A4%A7%E8%AF%9D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-6%E5%A4%A7%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99/%E4%BE%9D%E8%B5%96%E5%80%92%E8%BD%AC%E5%8E%9F%E5%88%99.png">
+<meta property="og:image" content="http://example.com/2024/04/02/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%A4%A7%E8%AF%9D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-6%E5%A4%A7%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99/%E9%87%8C%E6%B0%8F%E6%9B%BF%E6%8D%A2%E5%8E%9F%E5%88%99.png">
+<meta property="og:image" content="http://example.com/2024/04/02/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%A4%A7%E8%AF%9D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-6%E5%A4%A7%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99/%E8%BF%AA%E7%B1%B3%E7%89%B9%E5%8E%9F%E5%88%99.png">
+<meta property="og:image" content="http://example.com/2024/04/02/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%A4%A7%E8%AF%9D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-6%E5%A4%A7%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99/%E5%90%88%E6%88%90%E5%A4%8D%E7%94%A8%E5%8E%9F%E5%88%99.png">
+<meta property="article:published_time" content="2024-04-01T16:33:57.000Z">
+<meta property="article:modified_time" content="2024-04-01T17:14:58.626Z">
 <meta property="article:author" content="xulinjia">
-<meta property="article:tag" content="UGUI">
+<meta property="article:tag" content="大话设计模式总结">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2024/04/02/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%A4%A7%E8%AF%9D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-6%E5%A4%A7%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99/%E5%8D%95%E4%B8%80%E8%81%8C%E8%B4%A3%E5%8E%9F%E5%88%99.png">
 
 
-<link rel="canonical" href="http://example.com/2023/09/13/UGUI%E4%BA%8B%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%B2%BE%E8%A6%81-%E4%B8%80/">
+<link rel="canonical" href="http://example.com/2024/04/02/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%A4%A7%E8%AF%9D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-6%E5%A4%A7%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2023/09/13/UGUI%E4%BA%8B%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%B2%BE%E8%A6%81-%E4%B8%80/","path":"2023/09/13/UGUI事件系统精要-一/","title":"UGUI事件系统精要(一)-事件处理流程"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2024/04/02/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%A4%A7%E8%AF%9D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-6%E5%A4%A7%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99/","path":"2024/04/02/设计模式-大话设计模式-6大设计原则/","title":"设计模式-大话设计模式->6大设计原则"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>UGUI事件系统精要(一)-事件处理流程 | 徐麟家的博客</title>
+<title>设计模式-大话设计模式->6大设计原则 | 徐麟家的博客</title>
   
 
 
@@ -163,7 +170,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/09/13/UGUI%E4%BA%8B%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%B2%BE%E8%A6%81-%E4%B8%80/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/04/02/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%A4%A7%E8%AF%9D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-6%E5%A4%A7%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -176,12 +183,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="UGUI事件系统精要(一)-事件处理流程 | 徐麟家的博客">
+      <meta itemprop="name" content="设计模式-大话设计模式->6大设计原则 | 徐麟家的博客">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          UGUI事件系统精要(一)-事件处理流程
+          设计模式-大话设计模式->6大设计原则
         </h1>
 
         <div class="post-meta-container">
@@ -191,15 +198,9 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
+      
 
-      <time title="创建时间：2023-09-13 13:01:10" itemprop="dateCreated datePublished" datetime="2023-09-13T13:01:10+08:00">2023-09-13</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-01-15 20:42:30" itemprop="dateModified" datetime="2024-01-15T20:42:30+08:00">2024-01-15</time>
+      <time title="创建时间：2024-04-02 00:33:57 / 修改时间：01:14:58" itemprop="dateCreated datePublished" datetime="2024-04-02T00:33:57+08:00">2024-04-02</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -207,11 +208,11 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Unity/" itemprop="url" rel="index"><span itemprop="name">Unity</span></a>
+          <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a>
         </span>
           ，
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Unity/UGUI/" itemprop="url" rel="index"><span itemprop="name">UGUI</span></a>
+          <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/6%E5%A4%A7%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99/" itemprop="url" rel="index"><span itemprop="name">6大设计原则</span></a>
         </span>
     </span>
 
@@ -231,10 +232,14 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><p>EventSystem作为控制类操作BaseInput,BaseRaycaster</p>
-<p>BaseInput 相当于一个unity Input 和 UGUI BaseInputModule 的媒介类，BaseInputModule只跟BaseInput交互。<br>StandaloneInputModule-&gt;PointerInputModule,TouchInputModule-&gt;PointerInputModule,PointerInputModule-&gt;BaseInputModule<br>EventSystem 调用 BaseInputModule.Process() 处理来自unity的所有功能</p>
-<p>RaycasterManager静态类管理所有的GraphicRaycaster，BaseRaycaster 激活是注册自己到RaycasterManager<br>GraphicRaycaster -&gt; BaseRaycaster,Physics2DRaycaster-&gt;PhysicsRaycaster-&gt;BaseRaycaster</p>
-<p>BaseRaycaster的关键,Raycast方法获得当前节点下Canvas的所有Graphic，并且进行检测触发排序（最终是Graphic.Raycast()）。<br>最总EventSystem.RaycastComparer方法比较，排序获得第一个graphic作为pointerCurrentRaycast。</p>
+    <div class="post-body" itemprop="articleBody"><img src="/2024/04/02/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%A4%A7%E8%AF%9D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-6%E5%A4%A7%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99/%E5%8D%95%E4%B8%80%E8%81%8C%E8%B4%A3%E5%8E%9F%E5%88%99.png" class="">
+<img src="/2024/04/02/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%A4%A7%E8%AF%9D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-6%E5%A4%A7%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99/%E5%BC%80%E6%94%BE%E5%B0%81%E9%97%AD%E5%8E%9F%E5%88%99.png" class="">
+<img src="/2024/04/02/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%A4%A7%E8%AF%9D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-6%E5%A4%A7%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99/%E4%BE%9D%E8%B5%96%E5%80%92%E8%BD%AC%E5%8E%9F%E5%88%99.png" class="">
+<img src="/2024/04/02/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%A4%A7%E8%AF%9D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-6%E5%A4%A7%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99/%E9%87%8C%E6%B0%8F%E6%9B%BF%E6%8D%A2%E5%8E%9F%E5%88%99.png" class="">
+<img src="/2024/04/02/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%A4%A7%E8%AF%9D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-6%E5%A4%A7%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99/%E8%BF%AA%E7%B1%B3%E7%89%B9%E5%8E%9F%E5%88%99.png" class="">
+<img src="/2024/04/02/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%A4%A7%E8%AF%9D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-6%E5%A4%A7%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99/%E5%90%88%E6%88%90%E5%A4%8D%E7%94%A8%E5%8E%9F%E5%88%99.png" class="">
+
+<p>点评：在6个设计模式中，我认为单一职责和合成复用，我认为是最基础的，但却是最有用的；同时也是程序设计初学者最容易出问题的设计的两个设计原则：<br>对此我的经验总结如下：<br>1）、单一职责，告诉我们类的功能要单一，所以每个类存在自己的边界，必须分清楚各个类的功能划分，事件中可以一步一步来，化繁为简，逐步求精，当然也需要把握类的颗粒度。对此我的编程经验总结是：<br>    a、对于某些实体类，根据现实世界映射到类，往往可以得到一个直观的类划分。<br>    b、先划分一个初步的功能结构，讲究够用就行，等到需求要在拓展，再整理划分。<br>    c、“奥卡姆剃刀”-当你发现以上两条经验得出的类不是那个简单，明了，是否是你的类不够简单，可以在划分。<br>2）、合成复用原则 ，我认为我们要成分的理解类之间的几种关系，从强到弱分别是：依赖关系，关联关系，聚集关系，组成关系。然而初学面向对象的同学可能总是在继承中不能自拔，一旦出现某种设计，首先使用继承，这是不对的。应该综合实际情况，而且组合要优先于继承，好拓展啊！<br>对于此我的编程经验总结是：<br>1）、认清事物之间的关系，可以画几个草图，问问自己他们是 is 关系，还是has关系。<br>2）、当继承的子类越来越多，子类之间接近以乘数形式增加，可以想象类是否可分成两个或多个有关系的类，而不是继承。</p>
 
     </div>
 
@@ -244,18 +249,18 @@
 
     <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/UGUI/" rel="tag"># UGUI</a>
+              <a href="/tags/%E5%A4%A7%E8%AF%9D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%80%BB%E7%BB%93/" rel="tag"># 大话设计模式总结</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
+                <a href="/2024/03/28/%E6%B8%B8%E6%88%8F%E4%BC%98%E5%8C%96%E5%9F%BA%E6%9C%AC%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87%E4%BB%A5%E5%8F%8A%E8%AF%B4%E6%98%8E/" rel="prev" title="游戏优化基本性能指标以及说明">
+                  <i class="fa fa-angle-left"></i> 游戏优化基本性能指标以及说明
+                </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2023/12/14/%E7%AE%97%E6%B3%95-%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/" rel="next" title="算法-快速排序">
-                  算法-快速排序 <i class="fa fa-angle-right"></i>
-                </a>
             </div>
           </div>
     </footer>
