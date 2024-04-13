@@ -120,13 +120,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-count">17</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -148,6 +148,309 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/04/03/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%A4%A7%E8%AF%9D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%88%9B%E5%BB%BA%E5%9E%8B-%E5%8D%95%E4%BE%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="xulinjia">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="徐麟家的博客">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 徐麟家的博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/04/03/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%A4%A7%E8%AF%9D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%88%9B%E5%BB%BA%E5%9E%8B-%E5%8D%95%E4%BE%8B/" class="post-title-link" itemprop="url">设计模式-大话设计模式总结-创建型->单例</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-04-03 20:40:17" itemprop="dateCreated datePublished" datetime="2024-04-03T20:40:17+08:00">2024-04-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-04-10 12:31:03" itemprop="dateModified" datetime="2024-04-10T12:31:03+08:00">2024-04-10</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%88%9B%E5%BB%BA%E5%9E%8B/" itemprop="url" rel="index"><span itemprop="name">创建型</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <img src="/2024/04/03/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%A4%A7%E8%AF%9D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%88%9B%E5%BB%BA%E5%9E%8B-%E5%8D%95%E4%BE%8B/%E5%88%9B%E5%BB%BA%E5%9E%8B-%E5%8D%95%E4%BE%8B.png" class="">
+
+<h3>点评</h3>
+这一定是被大家用烂的设计模式，思想很简单-“构造方法私有化”，在类的生命周期中只有一个实例，对的怎么用都是他。
+<h5>#从使用者的角度讲单例似乎和静态类类似，他们好像只是名词不一样，他们有什么区别？</h5>
+想说下区别：
+1)单例更讲究对象的属性，可以用来保存对象特有的属性；静态类更讲究方法
+2)单例可以方便的继承和初始化；静态类就不是很好初始化，或者说不是那么直观的实现初始化工作。
+
+<h5>#什么时候使用单例？什么时候使用静态类?</h5>
+1)当你要维护一些生命周期，或者会保存状态属性，使用单例。编程中你往往看到很多xxxManager的代码，原因在此。
+2)当你只是想提供一些通用的方法，他们不保存状态，使用静态类。编程中你往往会看到很多 xxxutil之类的工具类。
+
+<p>在c#等支持泛型的语言中我们可以编写一个泛型单例基类，能省去很多繁琐的单例创建工作。我们给出Unity中比较典型泛型单例，它真的很使用！</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title">MonoSingleton</span>&lt;<span class="title">T</span>&gt; : <span class="title">MonoBehaviour</span> <span class="keyword">where</span> <span class="title">T</span> : <span class="title">Component</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> T m_instance = <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> T Instance</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">get</span></span><br><span class="line">        &#123;</span><br><span class="line">            GameObject go = GameObject.Find(<span class="string">&quot;$MonoSingleton&quot;</span>);</span><br><span class="line">            <span class="keyword">if</span> (go == <span class="literal">null</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                go = <span class="keyword">new</span> GameObject(<span class="string">&quot;$MonoSingleton&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (!go.IsDestroyed())</span><br><span class="line">            &#123;</span><br><span class="line">                DontDestroyOnLoad(go);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (m_instance == <span class="literal">null</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                GameObject child = <span class="keyword">new</span> GameObject(<span class="keyword">typeof</span>(T).Name);</span><br><span class="line">                GameObject.DontDestroyOnLoad(child);</span><br><span class="line">                child.transform.SetParent(go.transform);</span><br><span class="line">                m_instance = child.AddComponent&lt;T&gt;();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> m_instance;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Awake</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        OnInit();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">OnInit</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5>#使用示例：</h5>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">UIManager</span>:<span class="title">MonoSingleton</span>&lt;<span class="title">UIManager</span>&gt;&#123;...&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">EffectManager</span>:<span class="title">MonoSingleton</span>&lt;<span class="title">EffectManager</span>&gt;&#123;...&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">ResourcesManager</span>:<span class="title">MonoSingleton</span>&lt;<span class="title">ResourcesManager</span>&gt;&#123;...&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/04/02/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%A4%A7%E8%AF%9D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%88%9B%E5%BB%BA%E5%9E%8B-%E5%B7%A5%E5%8E%82/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="xulinjia">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="徐麟家的博客">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 徐麟家的博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/04/02/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%A4%A7%E8%AF%9D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%88%9B%E5%BB%BA%E5%9E%8B-%E5%B7%A5%E5%8E%82/" class="post-title-link" itemprop="url">设计模式-大话设计模式总结-创建型->工厂</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-04-02 22:59:47" itemprop="dateCreated datePublished" datetime="2024-04-02T22:59:47+08:00">2024-04-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-04-10 12:30:52" itemprop="dateModified" datetime="2024-04-10T12:30:52+08:00">2024-04-10</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%88%9B%E5%BB%BA%E5%9E%8B/" itemprop="url" rel="index"><span itemprop="name">创建型</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <img src="/2024/04/02/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%A4%A7%E8%AF%9D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%88%9B%E5%BB%BA%E5%9E%8B-%E5%B7%A5%E5%8E%82/%E5%88%9B%E5%BB%BA%E5%9E%8B-%E5%B7%A5%E5%8E%82%E6%96%B9%E6%B3%95.png" class="">
+<img src="/2024/04/02/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%A4%A7%E8%AF%9D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%88%9B%E5%BB%BA%E5%9E%8B-%E5%B7%A5%E5%8E%82/%E5%88%9B%E5%BB%BA%E5%9E%8B-%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82.png" class="">
+
+<h3>点评</h3>
+这两个工厂设计模式都体现了依赖倒置的设计原则，将具体创建产品的过程延迟到子类实现，从而为工厂提供了一定的拓展灵活性。相对而言工厂方法比较实用些，抽象工厂是在工厂方法上再多了一层对产品的抽象；抽象工厂因为多了一层产品抽象层，可能会比较臃肿，类个数会比较庞大，总是会结合反射一起使用。
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/04/02/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%A4%A7%E8%AF%9D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-6%E5%A4%A7%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="xulinjia">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="徐麟家的博客">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 徐麟家的博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/04/02/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%A4%A7%E8%AF%9D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-6%E5%A4%A7%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99/" class="post-title-link" itemprop="url">设计模式-大话设计模式总结->6大设计原则</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-04-02 00:33:57" itemprop="dateCreated datePublished" datetime="2024-04-02T00:33:57+08:00">2024-04-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-04-10 12:31:09" itemprop="dateModified" datetime="2024-04-10T12:31:09+08:00">2024-04-10</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/6%E5%A4%A7%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99/" itemprop="url" rel="index"><span itemprop="name">6大设计原则</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <img src="/2024/04/02/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%A4%A7%E8%AF%9D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-6%E5%A4%A7%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99/%E5%8D%95%E4%B8%80%E8%81%8C%E8%B4%A3%E5%8E%9F%E5%88%99.png" class="">
+<img src="/2024/04/02/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%A4%A7%E8%AF%9D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-6%E5%A4%A7%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99/%E5%BC%80%E6%94%BE%E5%B0%81%E9%97%AD%E5%8E%9F%E5%88%99.png" class="">
+<img src="/2024/04/02/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%A4%A7%E8%AF%9D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-6%E5%A4%A7%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99/%E4%BE%9D%E8%B5%96%E5%80%92%E8%BD%AC%E5%8E%9F%E5%88%99.png" class="">
+<img src="/2024/04/02/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%A4%A7%E8%AF%9D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-6%E5%A4%A7%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99/%E9%87%8C%E6%B0%8F%E6%9B%BF%E6%8D%A2%E5%8E%9F%E5%88%99.png" class="">
+<img src="/2024/04/02/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%A4%A7%E8%AF%9D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-6%E5%A4%A7%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99/%E8%BF%AA%E7%B1%B3%E7%89%B9%E5%8E%9F%E5%88%99.png" class="">
+<img src="/2024/04/02/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%A4%A7%E8%AF%9D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-6%E5%A4%A7%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99/%E5%90%88%E6%88%90%E5%A4%8D%E7%94%A8%E5%8E%9F%E5%88%99.png" class="">
+
+<h3>点评</h3>
+在6个设计模式中，我认为单一职责和合成复用，我认为是最基础的，但却是最有用的；同时也是程序设计初学者最容易出问题的设计的两个设计原则：
+对此我的经验总结如下：
+1）、单一职责，告诉我们类的功能要单一，所以每个类存在自己的边界，必须分清楚各个类的功能划分，事件中可以一步一步来，化繁为简，逐步求精，当然也需要把握类的颗粒度。对此我的编程经验总结是：
+    a、对于某些实体类，根据现实世界映射到类，往往可以得到一个直观的类划分。
+    b、先划分一个初步的功能结构，讲究够用就行，等到需求要在拓展，再整理划分。
+    c、“奥卡姆剃刀”-当你发现以上两条经验得出的类不是那个简单，明了，是否是你的类不够简单，可以在划分。
+2）、合成复用原则 ，我认为我们要成分的理解类之间的几种关系，从强到弱分别是：依赖关系，关联关系，聚集关系，组成关系。然而初学面向对象的同学可能总是在继承中不能自拔，一旦出现某种设计，首先使用继承，这是不对的。应该综合实际情况，而且组合要优先于继承，好拓展啊！
+对此我的编程经验总结是：
+a）、认清事物之间的关系，可以画几个草图，问问自己他们是 is 关系，还是has关系。
+b）、当继承的子类越来越多，子类之间接近以乘数形式增加，可以想象类是否可分成两个或多个有关系的类，而不是继承。
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
