@@ -19,30 +19,23 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.18.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="关于排序算法，不得不说排序算法。排序算法被认为是冒泡算法的优化，以优异的平均算法复杂度【O(nlgn)】而著名。 算法思想主要分为2个步骤： （1）划分数组a[p..r]为两个子数组a[p,i-1],a[i+1,r],使得a[p,i-1]中的数都小于等于a[i],a[i+1,r]中的数都大于等于a[i]  （2）递归对a[p,i-1],a[i+1,r]分别排序 *算法核心是如何分割为比基准数小的数">
-<meta property="og:type" content="article">
-<meta property="og:title" content="算法-快速排序">
-<meta property="og:url" content="http://example.com/2023/12/14/%E7%AE%97%E6%B3%95-%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/index.html">
+    <meta property="og:type" content="website">
+<meta property="og:title" content="徐麟家的博客">
+<meta property="og:url" content="http://example.com/page/3/index.html">
 <meta property="og:site_name" content="徐麟家的博客">
-<meta property="og:description" content="关于排序算法，不得不说排序算法。排序算法被认为是冒泡算法的优化，以优异的平均算法复杂度【O(nlgn)】而著名。 算法思想主要分为2个步骤： （1）划分数组a[p..r]为两个子数组a[p,i-1],a[i+1,r],使得a[p,i-1]中的数都小于等于a[i],a[i+1,r]中的数都大于等于a[i]  （2）递归对a[p,i-1],a[i+1,r]分别排序 *算法核心是如何分割为比基准数小的数">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2023/12/14/%E7%AE%97%E6%B3%95-%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/180207165418120.jpg">
-<meta property="article:published_time" content="2023-12-14T05:18:48.000Z">
-<meta property="article:modified_time" content="2024-04-03T13:51:47.548Z">
 <meta property="article:author" content="xulinjia">
-<meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2023/12/14/%E7%AE%97%E6%B3%95-%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/180207165418120.jpg">
 
 
-<link rel="canonical" href="http://example.com/2023/12/14/%E7%AE%97%E6%B3%95-%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/">
+<link rel="canonical" href="http://example.com/page/3/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2023/12/14/%E7%AE%97%E6%B3%95-%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/","path":"2023/12/14/算法-快速排序/","title":"算法-快速排序"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":true,"isPost":false,"lang":"zh-CN","comments":"","permalink":"","path":"page/3/index.html","title":""}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>算法-快速排序 | 徐麟家的博客</title>
+<title>徐麟家的博客</title>
   
 
 
@@ -75,7 +68,7 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <p class="site-title">徐麟家的博客</p>
+      <h1 class="site-title">徐麟家的博客</h1>
       <i class="logo-line"></i>
     </a>
       <p class="site-subtitle" itemprop="description">站在巨人的肩膀上</p>
@@ -154,17 +147,16 @@
 
     </div>
 
-    <div class="main-inner post posts-expand">
+    <div class="main-inner index posts-expand">
 
-
-  
+    
 
 
 <div class="post-block">
   
   
 
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
     <link itemprop="mainEntityOfPage" href="http://example.com/2023/12/14/%E7%AE%97%E6%B3%95-%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -178,13 +170,13 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="算法-快速排序 | 徐麟家的博客">
+      <meta itemprop="name" content="undefined | 徐麟家的博客">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          算法-快速排序
-        </h1>
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/12/14/%E7%AE%97%E6%B3%95-%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/" class="post-title-link" itemprop="url">算法-快速排序</a>
+        </h2>
 
         <div class="post-meta-container">
           <div class="post-meta">
@@ -218,13 +210,6 @@
     </span>
 
   
-    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
-      <span class="post-meta-item-icon">
-        <i class="far fa-eye"></i>
-      </span>
-      <span class="post-meta-item-text">阅读次数：</span>
-      <span id="busuanzi_value_page_pv"></span>
-    </span>
 </div>
 
         </div>
@@ -233,7 +218,8 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><pre><code>关于排序算法，不得不说排序算法。排序算法被认为是冒泡算法的优化，以优异的平均算法复杂度【O(nlgn)】而著名。
+    <div class="post-body" itemprop="articleBody">
+          <pre><code>关于排序算法，不得不说排序算法。排序算法被认为是冒泡算法的优化，以优异的平均算法复杂度【O(nlgn)】而著名。
 算法思想主要分为2个步骤：
 （1）划分数组a[p..r]为两个子数组a[p,i-1],a[i+1,r],使得a[p,i-1]中的数都小于等于a[i],a[i+1,r]中的数都大于等于a[i] 
 （2）递归对a[p,i-1],a[i+1,r]分别排序
@@ -244,6 +230,7 @@
 
 <img src="/2023/12/14/%E7%AE%97%E6%B3%95-%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/180207165418120.jpg" class="">
 
+      
     </div>
 
     
@@ -251,24 +238,8 @@
     
 
     <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
-          </div>
-
-        
-
-          <div class="post-nav">
-            <div class="post-nav-item">
-                <a href="/2023/09/13/UGUI%E4%BA%8B%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%B2%BE%E8%A6%81-%E4%B8%80/" rel="prev" title="UGUI事件系统精要(一)-事件处理流程">
-                  <i class="fa fa-angle-left"></i> UGUI事件系统精要(一)-事件处理流程
-                </a>
-            </div>
-            <div class="post-nav-item">
-                <a href="/2024/01/20/%E7%AE%97%E6%B3%95-%E5%A0%86%E6%8E%92%E5%BA%8F-%E6%9C%80%E5%B0%8F%E5%A0%86/" rel="next" title="算法-堆排序-最小堆">
-                  算法-堆排序-最小堆 <i class="fa fa-angle-right"></i>
-                </a>
-            </div>
-          </div>
+        <div class="post-eof"></div>
+      
     </footer>
   </article>
 </div>
@@ -276,7 +247,101 @@
 
 
 
+    
 
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/09/13/UGUI%E4%BA%8B%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%B2%BE%E8%A6%81-%E4%B8%80/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="xulinjia">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="徐麟家的博客">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 徐麟家的博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/09/13/UGUI%E4%BA%8B%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%B2%BE%E8%A6%81-%E4%B8%80/" class="post-title-link" itemprop="url">UGUI事件系统精要(一)-事件处理流程</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-09-13 13:01:10" itemprop="dateCreated datePublished" datetime="2023-09-13T13:01:10+08:00">2023-09-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-01-15 20:42:30" itemprop="dateModified" datetime="2024-01-15T20:42:30+08:00">2024-01-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Unity/" itemprop="url" rel="index"><span itemprop="name">Unity</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Unity/UGUI/" itemprop="url" rel="index"><span itemprop="name">UGUI</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>EventSystem作为控制类操作BaseInput,BaseRaycaster</p>
+<p>BaseInput 相当于一个unity Input 和 UGUI BaseInputModule 的媒介类，BaseInputModule只跟BaseInput交互。<br>StandaloneInputModule-&gt;PointerInputModule,TouchInputModule-&gt;PointerInputModule,PointerInputModule-&gt;BaseInputModule<br>EventSystem 调用 BaseInputModule.Process() 处理来自unity的所有功能</p>
+<p>RaycasterManager静态类管理所有的GraphicRaycaster，BaseRaycaster 激活是注册自己到RaycasterManager<br>GraphicRaycaster -&gt; BaseRaycaster,Physics2DRaycaster-&gt;PhysicsRaycaster-&gt;BaseRaycaster</p>
+<p>BaseRaycaster的关键,Raycast方法获得当前节点下Canvas的所有Graphic，并且进行检测触发排序（最终是Graphic.Raycast()）。<br>最总EventSystem.RaycastComparer方法比较，排序获得第一个graphic作为pointerCurrentRaycast。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+  </nav>
 
 </div>
   </main>
