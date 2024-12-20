@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.0.0-rc2">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
@@ -120,7 +120,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-count">36</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -131,7 +131,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">4</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -148,6 +148,801 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/12/20/UGUI%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-%E6%8B%93%E5%B1%95ScrollRect%E8%87%AA%E5%8A%A8%E5%8F%AF%E5%90%A6%E6%8B%96%E5%8A%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="xulinjia">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="徐麟家的博客">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 徐麟家的博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/12/20/UGUI%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-%E6%8B%93%E5%B1%95ScrollRect%E8%87%AA%E5%8A%A8%E5%8F%AF%E5%90%A6%E6%8B%96%E5%8A%A8/" class="post-title-link" itemprop="url">UGUI源码分析-拓展ScrollRect自动可否拖动</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-12-20 19:51:30" itemprop="dateCreated datePublished" datetime="2024-12-20T19:51:30+08:00">2024-12-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-12-21 00:12:23" itemprop="dateModified" datetime="2024-12-21T00:12:23+08:00">2024-12-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Unity/" itemprop="url" rel="index"><span itemprop="name">Unity</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Unity/UGUI/" itemprop="url" rel="index"><span itemprop="name">UGUI</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>291</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>1 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="1-本文内容概述"><a href="#1-本文内容概述" class="headerlink" title="1.本文内容概述"></a>1.本文内容概述</h2><p>拓展ScrollRect组件相关内容，当ScrollRect的Conenct没有超过ScrollRect的大小不需要拖动；否则，可拖动。</p>
+<h2 id="2-代码分析"><a href="#2-代码分析" class="headerlink" title="2.代码分析"></a>2.代码分析</h2><pre><code>代码需要比较 ScrollRect的sizeDelta和Content的sizeDelta进行比较。当Content的宽度（高度）大于Content的宽度（高度）时，则需要拖动;反之亦反。
+监听UIBehaviour.OnRectTransformDimensionsChange事件，当Context发生改变需要重置。
+</code></pre>
+<h2 id="3-代码展示"><a href="#3-代码展示" class="headerlink" title="3.代码展示"></a>3.代码展示</h2><figure class="highlight csharp"><figcaption><span>UIScrollDragAdapter.cs</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">using</span> UnityEngine;</span><br><span class="line"><span class="keyword">using</span> UnityEngine.EventSystems;</span><br><span class="line"><span class="keyword">using</span> UnityEngine.UI;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">Rainbow.UI</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 根据Context的bounds，自动判断ScrollRect 是否可以滑动！当检测的几何框大小发生变化的时候会重新计算</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 以Vertical为例当高度小于ScrollRect的高度，锁定垂直方向上的滑动</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> *要点1、必须挂在需要检测RectTransform变化的GameObject上 Content上</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> *要点2、设置 scrollRect</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> *要点3、设置 dragDir</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    [<span class="meta">RequireComponent(typeof(RectTransform))</span>]</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">UIScrollDragAdapter</span> : <span class="title">UIBehaviour</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">public</span> ScrollRect scrollRect;</span><br><span class="line">        <span class="keyword">public</span> DragDir dragDir;</span><br><span class="line">        RectTransform rectTransform;</span><br><span class="line">        RectTransform scrollRectTransform;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="built_in">enum</span> DragDir</span><br><span class="line">        &#123;</span><br><span class="line">            Vertical,</span><br><span class="line">            Horizontal,</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">protected</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">Start</span>()</span></span><br><span class="line">        &#123;</span><br><span class="line">            rectTransform = GetComponent&lt;RectTransform&gt;();</span><br><span class="line">            <span class="keyword">if</span> (scrollRect != <span class="literal">null</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                scrollRectTransform = scrollRect.GetComponent&lt;RectTransform&gt;();</span><br><span class="line">            &#125;</span><br><span class="line">            OnRectTransformDimensionsChange();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="function"><span class="keyword">protected</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">OnRectTransformDimensionsChange</span>()</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (rectTransform == <span class="literal">null</span> || scrollRectTransform == <span class="literal">null</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            Bounds bounds = RectTransformUtility.CalculateRelativeRectTransformBounds(scrollRectTransform, rectTransform);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (dragDir == DragDir.Vertical)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="built_in">bool</span> dragv = bounds.size.y &gt; scrollRectTransform.sizeDelta.y;</span><br><span class="line">                scrollRect.vertical = dragv;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (dragDir == DragDir.Horizontal)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="built_in">bool</span> dragh = bounds.size.x &gt; scrollRectTransform.sizeDelta.x;</span><br><span class="line">                scrollRect.horizontal = dragh;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="4-效果演示"><a href="#4-效果演示" class="headerlink" title="4.效果演示"></a>4.效果演示</h2><img src="/2024/12/20/UGUI%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-%E6%8B%93%E5%B1%95ScrollRect%E8%87%AA%E5%8A%A8%E5%8F%AF%E5%90%A6%E6%8B%96%E5%8A%A8/p1.png" class="" width="1200">
+<img src="/2024/12/20/UGUI%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-%E6%8B%93%E5%B1%95ScrollRect%E8%87%AA%E5%8A%A8%E5%8F%AF%E5%90%A6%E6%8B%96%E5%8A%A8/p2.gif" class="">
+
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/10/23/UGUI%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-%E6%8B%93%E5%B1%95Button%E7%82%B9%E5%87%BB%E7%BC%A9%E6%94%BE%E5%8A%9F%E8%83%BD/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="xulinjia">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="徐麟家的博客">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 徐麟家的博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/10/23/UGUI%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-%E6%8B%93%E5%B1%95Button%E7%82%B9%E5%87%BB%E7%BC%A9%E6%94%BE%E5%8A%9F%E8%83%BD/" class="post-title-link" itemprop="url">UGUI源码分析-拓展Button点击缩放功能</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-10-23 13:14:22" itemprop="dateCreated datePublished" datetime="2024-10-23T13:14:22+08:00">2024-10-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-12-20 21:28:23" itemprop="dateModified" datetime="2024-12-20T21:28:23+08:00">2024-12-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Unity/" itemprop="url" rel="index"><span itemprop="name">Unity</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Unity/UGUI/" itemprop="url" rel="index"><span itemprop="name">UGUI</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>113</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>1 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="1-本文内容概述"><a href="#1-本文内容概述" class="headerlink" title="1.本文内容概述"></a>1.本文内容概述</h1><p>主要分析下UGUI-Button的一些源码，分析点击效果如何实现的效果的细节。最后添加一个拓展实现缩放功能（DoTween插件）。</p>
+<hr>
+<h2 id="2-Button按钮的代码分析"><a href="#2-Button按钮的代码分析" class="headerlink" title="2.Button按钮的代码分析"></a>2.Button按钮的代码分析</h2><h2 id="3-如何实现点击动画效果"><a href="#3-如何实现点击动画效果" class="headerlink" title="3.如何实现点击动画效果"></a>3.如何实现点击动画效果</h2><hr>
+<h2 id="4-实现一个按钮缩放的功能的按钮–UIScaleButton"><a href="#4-实现一个按钮缩放的功能的按钮–UIScaleButton" class="headerlink" title="4.实现一个按钮缩放的功能的按钮–UIScaleButton"></a>4.实现一个按钮缩放的功能的按钮–UIScaleButton</h2><h3 id="4-1辅助编辑器工具和创建UIScaleButton的快捷方式"><a href="#4-1辅助编辑器工具和创建UIScaleButton的快捷方式" class="headerlink" title="4.1辅助编辑器工具和创建UIScaleButton的快捷方式"></a>4.1辅助编辑器工具和创建UIScaleButton的快捷方式</h3><h3 id="4-2分享源码库地址"><a href="#4-2分享源码库地址" class="headerlink" title="4.2分享源码库地址"></a>4.2<em>分享源码库地址</em></h3>
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/08/20/UGUI%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-%E5%B7%A5%E7%A8%8B%E6%90%AD%E5%BB%BA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="xulinjia">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="徐麟家的博客">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 徐麟家的博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/08/20/UGUI%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-%E5%B7%A5%E7%A8%8B%E6%90%AD%E5%BB%BA/" class="post-title-link" itemprop="url">UGUI源码分析-工程搭建</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-08-20 15:33:56" itemprop="dateCreated datePublished" datetime="2024-08-20T15:33:56+08:00">2024-08-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-10-23 23:38:07" itemprop="dateModified" datetime="2024-10-23T23:38:07+08:00">2024-10-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Unity/" itemprop="url" rel="index"><span itemprop="name">Unity</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Unity/UGUI/" itemprop="url" rel="index"><span itemprop="name">UGUI</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>231</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>1 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>unity使用packageManger方式创建需要依赖代码包。对我们想研究查看和修改UGUI源码很不方便，故想搭建一个可调试，修改UGUI源码的的unity工程。当然再实际开发中我们并不建议直接修改源码！</p>
+<h2 id="如何创建一个可调试可修改的UGUI源码工程？"><a href="#如何创建一个可调试可修改的UGUI源码工程？" class="headerlink" title="如何创建一个可调试可修改的UGUI源码工程？"></a><em>如何创建一个可调试可修改的UGUI源码工程？</em></h2><ol>
+<li>创建一个unity工程<img src="/2024/08/20/UGUI%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-%E5%B7%A5%E7%A8%8B%E6%90%AD%E5%BB%BA/%E5%B7%A5%E7%A8%8B%E6%90%AD%E5%BB%BA1.png" class=""></li>
+<li>等初始化完毕后拷贝UGUI_CodeAnalyse&#x2F;Library&#x2F;PackageCache&#x2F;<a href="mailto:&#99;&#x6f;&#109;&#46;&#117;&#x6e;&#x69;&#116;&#x79;&#x2e;&#117;&#103;&#x75;&#x69;&#64;&#x31;&#46;&#x30;&#x2e;&#48;">&#99;&#x6f;&#109;&#46;&#117;&#x6e;&#x69;&#116;&#x79;&#x2e;&#117;&#103;&#x75;&#x69;&#64;&#x31;&#46;&#x30;&#x2e;&#48;</a>文件夹至UGUI_CodeAnalyse&#x2F;Packages&#x2F;<a href="mailto:&#99;&#x6f;&#x6d;&#46;&#x75;&#110;&#105;&#x74;&#121;&#x2e;&#x75;&#103;&#117;&#x69;&#64;&#49;&#x2e;&#x30;&#x2e;&#48;">&#99;&#x6f;&#x6d;&#46;&#x75;&#110;&#105;&#x74;&#121;&#x2e;&#x75;&#103;&#117;&#x69;&#64;&#49;&#x2e;&#x30;&#x2e;&#48;</a>，请看下图<img src="/2024/08/20/UGUI%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-%E5%B7%A5%E7%A8%8B%E6%90%AD%E5%BB%BA/%E5%B7%A5%E7%A8%8B%E6%90%AD%E5%BB%BA2.png" class="">
+<img src="/2024/08/20/UGUI%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-%E5%B7%A5%E7%A8%8B%E6%90%AD%E5%BB%BA/%E5%B7%A5%E7%A8%8B%E6%90%AD%E5%BB%BA3.png" class=""></li>
+<li>测试，脚本编辑器打开修改Button.cs中的Press()方法。<img src="/2024/08/20/UGUI%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-%E5%B7%A5%E7%A8%8B%E6%90%AD%E5%BB%BA/%E5%B7%A5%E7%A8%8B%E6%90%AD%E5%BB%BA4.png" class=""></li>
+<li>scene中创建一个按钮，点击按钮，打印出日志”Hi I click”。<img src="/2024/08/20/UGUI%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-%E5%B7%A5%E7%A8%8B%E6%90%AD%E5%BB%BA/%E5%B7%A5%E7%A8%8B%E6%90%AD%E5%BB%BA5.png" class=""></li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过以上的方式搭建的工程，可以修改，调试UGUI的源码，以验证我们的想法。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/08/13/UGUI%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-%E7%BC%96%E8%BE%91%E5%99%A8%E5%8F%B3%E9%94%AE%E5%88%9B%E5%BB%BAImage%E7%9A%84%E8%BF%87%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="xulinjia">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="徐麟家的博客">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 徐麟家的博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/08/13/UGUI%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-%E7%BC%96%E8%BE%91%E5%99%A8%E5%8F%B3%E9%94%AE%E5%88%9B%E5%BB%BAImage%E7%9A%84%E8%BF%87%E7%A8%8B/" class="post-title-link" itemprop="url">UGUI源码分析-编辑器右键创建Image的过程</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-08-13 20:02:39" itemprop="dateCreated datePublished" datetime="2024-08-13T20:02:39+08:00">2024-08-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-10-23 23:38:07" itemprop="dateModified" datetime="2024-10-23T23:38:07+08:00">2024-10-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Unity/" itemprop="url" rel="index"><span itemprop="name">Unity</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Unity/UGUI/" itemprop="url" rel="index"><span itemprop="name">UGUI</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>560</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>2 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="在一个空的scene，UGUI是如何创建一个Image组件的"><a href="#在一个空的scene，UGUI是如何创建一个Image组件的" class="headerlink" title="在一个空的scene，UGUI是如何创建一个Image组件的?"></a><em>在一个空的scene，UGUI是如何创建一个Image组件的?</em></h3><img src="/2024/08/13/UGUI%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-%E7%BC%96%E8%BE%91%E5%99%A8%E5%8F%B3%E9%94%AE%E5%88%9B%E5%BB%BAImage%E7%9A%84%E8%BF%87%E7%A8%8B/create_image1.png" class="" title="在空scene中右键创建Image">
+<img src="/2024/08/13/UGUI%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-%E7%BC%96%E8%BE%91%E5%99%A8%E5%8F%B3%E9%94%AE%E5%88%9B%E5%BB%BAImage%E7%9A%84%E8%BF%87%E7%A8%8B/create_image2.png" class="" title="一些列自动生成的组件">
+
+<h4 id="简单的介绍"><a href="#简单的介绍" class="headerlink" title="简单的介绍"></a>简单的介绍</h4><ol>
+<li>Canvas 画布，所有的UI显示元素必须在canvas中,Canvas 是UGUI组织界面的根节点。</li>
+<li>Image 创建的图片。</li>
+<li>EventSystem 事件系统，所有的点击，拖拽，按钮都是在这里处理完转发给UI组件的。</li>
+</ol>
+<h4 id="初始化的这部分代码都在MenuOptions-cs中，任何右键相关的创建命令都在这里编写，我们这里就看下Image的创建过程，其他都是类似的。"><a href="#初始化的这部分代码都在MenuOptions-cs中，任何右键相关的创建命令都在这里编写，我们这里就看下Image的创建过程，其他都是类似的。" class="headerlink" title="初始化的这部分代码都在MenuOptions.cs中，任何右键相关的创建命令都在这里编写，我们这里就看下Image的创建过程，其他都是类似的。"></a>初始化的这部分代码都在MenuOptions.cs中，任何右键相关的创建命令都在这里编写，我们这里就看下Image的创建过程，其他都是类似的。</h4><figure class="highlight csharp"><figcaption><span>MenuOptions.cs</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">[<span class="meta">MenuItem(<span class="string">&quot;GameObject/UI/Image&quot;</span>, false, 2001)</span>]</span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">AddImage</span>(<span class="params">MenuCommand menuCommand</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    GameObject go = DefaultControls.CreateImage(GetStandardResources());</span><br><span class="line">    PlaceUIElementRoot(go, menuCommand);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">PlaceUIElementRoot</span>(<span class="params">GameObject element, MenuCommand menuCommand</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    GameObject parent = menuCommand.context <span class="keyword">as</span> GameObject;</span><br><span class="line">    <span class="built_in">bool</span> explicitParentChoice = <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">if</span> (parent == <span class="literal">null</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        parent = GetOrCreateCanvasGameObject();</span><br><span class="line">        explicitParentChoice = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// If in Prefab Mode, Canvas has to be part of Prefab contents,</span></span><br><span class="line">        <span class="comment">// otherwise use Prefab root instead.</span></span><br><span class="line">        PrefabStage prefabStage = PrefabStageUtility.GetCurrentPrefabStage();</span><br><span class="line">        <span class="keyword">if</span> (prefabStage != <span class="literal">null</span> &amp;&amp; !prefabStage.IsPartOfPrefabContents(parent))</span><br><span class="line">            parent = prefabStage.prefabContentsRoot;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (parent.GetComponentsInParent&lt;Canvas&gt;(<span class="literal">true</span>).Length == <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// Create canvas under context GameObject,</span></span><br><span class="line">        <span class="comment">// and make that be the parent which UI element is added under.</span></span><br><span class="line">        GameObject canvas = MenuOptions.CreateNewUI();</span><br><span class="line">        canvas.transform.SetParent(parent.transform, <span class="literal">false</span>);</span><br><span class="line">        parent = canvas;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Setting the element to be a child of an element already in the scene should</span></span><br><span class="line">    <span class="comment">// be sufficient to also move the element to that scene.</span></span><br><span class="line">    <span class="comment">// However, it seems the element needs to be already in its destination scene when the</span></span><br><span class="line">    <span class="comment">// RegisterCreatedObjectUndo is performed; otherwise the scene it was created in is dirtied.</span></span><br><span class="line">    SceneManager.MoveGameObjectToScene(element, parent.scene);</span><br><span class="line"></span><br><span class="line">    Undo.RegisterCreatedObjectUndo(element, <span class="string">&quot;Create &quot;</span> + element.name);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (element.transform.parent == <span class="literal">null</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        Undo.SetTransformParent(element.transform, parent.transform, <span class="string">&quot;Parent &quot;</span> + element.name);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    GameObjectUtility.EnsureUniqueNameForSibling(element);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// We have to fix up the undo name since the name of the object was only known after reparenting it.</span></span><br><span class="line">    Undo.SetCurrentGroupName(<span class="string">&quot;Create &quot;</span> + element.name);</span><br><span class="line"></span><br><span class="line">    GameObjectUtility.SetParentAndAlign(element, parent);</span><br><span class="line">    <span class="keyword">if</span> (!explicitParentChoice) <span class="comment">// not a context click, so center in sceneview</span></span><br><span class="line">        SetPositionVisibleinSceneView(parent.GetComponent&lt;RectTransform&gt;(), element.GetComponent&lt;RectTransform&gt;());</span><br><span class="line"></span><br><span class="line">    Selection.activeGameObject = element;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//创建canvas</span></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">public</span> GameObject <span class="title">CreateNewUI</span>()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// Root for the UI</span></span><br><span class="line">    <span class="keyword">var</span> root = <span class="keyword">new</span> GameObject(<span class="string">&quot;Canvas&quot;</span>);</span><br><span class="line">    root.layer = LayerMask.NameToLayer(kUILayerName);</span><br><span class="line">    Canvas canvas = root.AddComponent&lt;Canvas&gt;();</span><br><span class="line">    canvas.renderMode = RenderMode.ScreenSpaceOverlay;</span><br><span class="line">    root.AddComponent&lt;CanvasScaler&gt;();</span><br><span class="line">    root.AddComponent&lt;GraphicRaycaster&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Works for all stages.</span></span><br><span class="line">    StageUtility.PlaceGameObjectInCurrentStage(root);</span><br><span class="line">    <span class="built_in">bool</span> customScene = <span class="literal">false</span>;</span><br><span class="line">    PrefabStage prefabStage = PrefabStageUtility.GetCurrentPrefabStage();</span><br><span class="line">    <span class="keyword">if</span> (prefabStage != <span class="literal">null</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        root.transform.SetParent(prefabStage.prefabContentsRoot.transform, <span class="literal">false</span>);</span><br><span class="line">        customScene = <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Undo.RegisterCreatedObjectUndo(root, <span class="string">&quot;Create &quot;</span> + root.name);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// If there is no event system add one...</span></span><br><span class="line">    <span class="comment">// No need to place event system in custom scene as these are temporary anyway.</span></span><br><span class="line">    <span class="comment">// It can be argued for or against placing it in the user scenes,</span></span><br><span class="line">    <span class="comment">// but let&#x27;s not modify scene user is not currently looking at.</span></span><br><span class="line">    <span class="keyword">if</span> (!customScene)</span><br><span class="line">        CreateEventSystem(<span class="literal">false</span>);</span><br><span class="line">    <span class="keyword">return</span> root;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">CreateEventSystem</span>(<span class="params"><span class="built_in">bool</span> <span class="keyword">select</span></span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    CreateEventSystem(<span class="keyword">select</span>, <span class="literal">null</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//创建事件系统</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">CreateEventSystem</span>(<span class="params"><span class="built_in">bool</span> <span class="keyword">select</span>, GameObject parent</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    StageHandle stage = parent == <span class="literal">null</span> ? StageUtility.GetCurrentStageHandle() : StageUtility.GetStageHandle(parent);</span><br><span class="line">    <span class="keyword">var</span> esys = stage.FindComponentOfType&lt;EventSystem&gt;();</span><br><span class="line">    <span class="keyword">if</span> (esys == <span class="literal">null</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">var</span> eventSystem = <span class="keyword">new</span> GameObject(<span class="string">&quot;EventSystem&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span> (parent == <span class="literal">null</span>)</span><br><span class="line">            StageUtility.PlaceGameObjectInCurrentStage(eventSystem);</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            GameObjectUtility.SetParentAndAlign(eventSystem, parent);</span><br><span class="line">        esys = eventSystem.AddComponent&lt;EventSystem&gt;();</span><br><span class="line">        eventSystem.AddComponent&lt;StandaloneInputModule&gt;();</span><br><span class="line"></span><br><span class="line">        Undo.RegisterCreatedObjectUndo(eventSystem, <span class="string">&quot;Create &quot;</span> + eventSystem.name);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">select</span> &amp;&amp; esys != <span class="literal">null</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        Selection.activeGameObject = esys.gameObject;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<img src="/2024/08/13/UGUI%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-%E7%BC%96%E8%BE%91%E5%99%A8%E5%8F%B3%E9%94%AE%E5%88%9B%E5%BB%BAImage%E7%9A%84%E8%BF%87%E7%A8%8B/create_image3.png" class="" title="创建过程流程图">
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/08/07/UGUI%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-LayoutGroup/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="xulinjia">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="徐麟家的博客">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 徐麟家的博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/08/07/UGUI%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-LayoutGroup/" class="post-title-link" itemprop="url">UGUI源码分析-LayoutGroup</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-08-07 18:07:48" itemprop="dateCreated datePublished" datetime="2024-08-07T18:07:48+08:00">2024-08-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-10-23 23:38:07" itemprop="dateModified" datetime="2024-10-23T23:38:07+08:00">2024-10-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Unity/" itemprop="url" rel="index"><span itemprop="name">Unity</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Unity/UGUI/" itemprop="url" rel="index"><span itemprop="name">UGUI</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.4k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>5 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>简单画了下关于LayoutGroup的类图。</p>
+<img src="/2024/08/07/UGUI%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-LayoutGroup/gaphor_9ZhFlUAXAg.png" class="">
+
+<h3>源码分析以及代码解释</h3>
+1、CanvasUpdateRegistry 注册Rebuild 事件，Canvas从底层系统调用重新布局刷新方法 LayoutRebuilder.Rebuild(CanvasUpdate executing)。</br>
+2、LayoutRebuilder : ICanvasElement 是一个容器类对界面Rebuid请求进行封装。主要负责重建各种布局。</br>
+其中非常关键的方法代码：</br>
+<figure class="highlight csharp"><figcaption><span>LayoutRebuilder.cs</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Rebuild</span>(<span class="params">CanvasUpdate executing</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">switch</span> (executing)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">case</span> CanvasUpdate.Layout:</span><br><span class="line">            <span class="comment">// It&#x27;s unfortunate that we&#x27;ll perform the same GetComponents querys for the tree 2 times,</span></span><br><span class="line">            <span class="comment">// but each tree have to be fully iterated before going to the next action,</span></span><br><span class="line">            <span class="comment">// so reusing the results would entail storing results in a Dictionary or similar,</span></span><br><span class="line">            <span class="comment">// which is probably a bigger overhead than performing GetComponents multiple times.</span></span><br><span class="line">            PerformLayoutCalculation(m_ToRebuild, e =&gt; (e <span class="keyword">as</span> ILayoutElement).CalculateLayoutInputHorizontal());</span><br><span class="line">            PerformLayoutControl(m_ToRebuild, e =&gt; (e <span class="keyword">as</span> ILayoutController).SetLayoutHorizontal());</span><br><span class="line">            PerformLayoutCalculation(m_ToRebuild, e =&gt; (e <span class="keyword">as</span> ILayoutElement).CalculateLayoutInputVertical());</span><br><span class="line">            PerformLayoutControl(m_ToRebuild, e =&gt; (e <span class="keyword">as</span> ILayoutController).SetLayoutVertical());</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//深度优先，效果就是先把子类的布局好，再布局自己</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">PerformLayoutControl</span>(<span class="params">RectTransform rect, UnityAction&lt;Component&gt; action</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (rect == <span class="literal">null</span>)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> components = ListPool&lt;Component&gt;.Get();</span><br><span class="line">    rect.GetComponents(<span class="keyword">typeof</span>(ILayoutController), components);</span><br><span class="line">    StripDisabledBehavioursFromList(components);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// If there are no controllers on this rect we can skip this entire sub-tree</span></span><br><span class="line">    <span class="comment">// We don&#x27;t need to consider controllers on children deeper in the sub-tree either,</span></span><br><span class="line">    <span class="comment">// since they will be their own roots.</span></span><br><span class="line">    <span class="keyword">if</span> (components.Count &gt; <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// Layout control needs to executed top down with parents being done before their children,</span></span><br><span class="line">        <span class="comment">// because the children rely on the sizes of the parents.</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// First call layout controllers that may change their own RectTransform</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; components.Count; i++)</span><br><span class="line">            <span class="keyword">if</span> (components[i] <span class="keyword">is</span> ILayoutSelfController)</span><br><span class="line">                action(components[i]);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Then call the remaining, such as layout groups that change their children, taking their own RectTransform size into account.</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; components.Count; i++)</span><br><span class="line">            <span class="keyword">if</span> (!(components[i] <span class="keyword">is</span> ILayoutSelfController))</span><br><span class="line">                action(components[i]);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; rect.childCount; i++)</span><br><span class="line">            PerformLayoutControl(rect.GetChild(i) <span class="keyword">as</span> RectTransform, action);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ListPool&lt;Component&gt;.Release(components);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//深度优先，效果就是先把子类的布局好，再布局自己</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">PerformLayoutCalculation</span>(<span class="params">RectTransform rect, UnityAction&lt;Component&gt; action</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (rect == <span class="literal">null</span>)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> components = ListPool&lt;Component&gt;.Get();</span><br><span class="line">    rect.GetComponents(<span class="keyword">typeof</span>(ILayoutElement), components);</span><br><span class="line">    StripDisabledBehavioursFromList(components);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// If there are no controllers on this rect we can skip this entire sub-tree</span></span><br><span class="line">    <span class="comment">// We don&#x27;t need to consider controllers on children deeper in the sub-tree either,</span></span><br><span class="line">    <span class="comment">// since they will be their own roots.</span></span><br><span class="line">    <span class="keyword">if</span> (components.Count &gt; <span class="number">0</span>  || rect.GetComponent(<span class="keyword">typeof</span>(ILayoutGroup)))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// Layout calculations needs to executed bottom up with children being done before their parents,</span></span><br><span class="line">        <span class="comment">// because the parent calculated sizes rely on the sizes of the children.</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; rect.childCount; i++)</span><br><span class="line">            PerformLayoutCalculation(rect.GetChild(i) <span class="keyword">as</span> RectTransform, action);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; components.Count; i++)</span><br><span class="line">            action(components[i]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ListPool&lt;Component&gt;.Release(components);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>3、ILayoutElement：包含自身各种布局相关参数的计算，最基础的布局元素：minWidth ，preferredHeight，minHight ，preferredHeight，layoutPriority 、、、、、。定义了两个重要的方法：<br>（a）CalculateLayoutInputHorizontal() 水平方向计算<br>（b）CalculateLayoutInputVertical()   垂直方向计算<br>4、ILayoutController：主要是对子节点进行布局。<br>（a） SetLayoutHorizontal()<br>（b）SetLayoutVertical()</p>
+<h3>示例</h3>
+<i>分析一个Horizontal Layout Group 布局相关的实例:</i>
+<img src="/2024/08/07/UGUI%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-LayoutGroup/Unity_I8EGDdiHLD.png" class="">
+白色的是HorizontalLayoutGroup的RectTransform矩形，红色是子元素Recttransform矩形（5个）。
+根据代码执行逻辑会先对子层级ILayoutElement（Image组件是实现ILayoutElement的）按1，2，3，4，5的顺序进行计算其长宽。然后执行ILayoutController，父层级的Horizontal Layout Group 会起作用，排列子子物体。
+<i>我们看到白色框是不会自己进行排列的，在开发中需要白色框的长度和子物体大小一样（也就是宽度是红色宽度的总和）的需求，怎么办？</i>
+可以添加一个ContentSizeFitter：ILayoutSelfController这个组件的作用正像他的实现接口名字一样设置自身。
+<img src="/2024/08/07/UGUI%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-LayoutGroup/Unity_Y73S2UqUTR.png" class="">
+父类白色框的宽度和红色框宽度保持一致了。
+<i>一些实用性的布局技巧，对Layout Group组件中的ControlChildSize的解释</i>
+勾选ControlChildSize。会使用子类的LayoutElement中的布局熟悉（width height等），下图希望子物体中1的宽度200，2~5宽度100，参考以下设置：
+<img src="/2024/08/07/UGUI%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-LayoutGroup/controlSize1.png" class="">
+<img src="/2024/08/07/UGUI%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-LayoutGroup/controlSize3.png" class="">
+<img src="/2024/08/07/UGUI%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-LayoutGroup/controlSize2.png" class="">
+<h4>代码解析：</h4>
+LayoutElement组件，默认的UI组件Image，Text等都是实现ILayoutElement，可以利用ILayoutElement.layoutPriority，LayoutGroup和ContentSizeFitter在计算子对象或者自己with和hight时会按优先级生效。
+<figure class="highlight csharp"><figcaption><span>LayoutUtility.cs</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> Gets a calculated layout property for the layout element with the given RectTransform.</span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;rect&quot;&gt;</span>The RectTransform of the layout element to get a property for.<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;property&quot;&gt;</span>The property to calculate.<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;defaultValue&quot;&gt;</span>The default value to use if no component on the layout element supplies the given property<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;source&quot;&gt;</span>Optional out parameter to get the component that supplied the calculated value.<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;returns&gt;</span>The calculated value of the layout property.<span class="doctag">&lt;/returns&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="built_in">float</span> <span class="title">GetLayoutProperty</span>(<span class="params">RectTransform rect, System.Func&lt;ILayoutElement, <span class="built_in">float</span>&gt; property, <span class="built_in">float</span> defaultValue, <span class="keyword">out</span> ILayoutElement source</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    source = <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">if</span> (rect == <span class="literal">null</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">float</span> min = defaultValue;</span><br><span class="line">    <span class="built_in">int</span> maxPriority = System.Int32.MinValue;</span><br><span class="line">    <span class="keyword">var</span> components = ListPool&lt;Component&gt;.Get();</span><br><span class="line">    rect.GetComponents(<span class="keyword">typeof</span>(ILayoutElement), components);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; components.Count; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">var</span> layoutComp = components[i] <span class="keyword">as</span> ILayoutElement;</span><br><span class="line">        <span class="keyword">if</span> (layoutComp <span class="keyword">is</span> Behaviour &amp;&amp; !((Behaviour)layoutComp).isActiveAndEnabled)</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">int</span> priority = layoutComp.layoutPriority;</span><br><span class="line">        <span class="comment">// If this layout components has lower priority than a previously used, ignore it.</span></span><br><span class="line">        <span class="keyword">if</span> (priority &lt; maxPriority)</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        <span class="built_in">float</span> prop = property(layoutComp);</span><br><span class="line">        <span class="comment">// If this layout property is set to a negative value, it means it should be ignored.</span></span><br><span class="line">        <span class="keyword">if</span> (prop &lt; <span class="number">0</span>)</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// If this layout component has higher priority than all previous ones,</span></span><br><span class="line">        <span class="comment">// overwrite with this one&#x27;s value.</span></span><br><span class="line">        <span class="keyword">if</span> (priority &gt; maxPriority)</span><br><span class="line">        &#123;</span><br><span class="line">            min = prop;</span><br><span class="line">            maxPriority = priority;</span><br><span class="line">            source = layoutComp;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// If the layout component has the same priority as a previously used,</span></span><br><span class="line">        <span class="comment">// use the largest of the values with the same priority.</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (prop &gt; min)</span><br><span class="line">        &#123;</span><br><span class="line">            min = prop;</span><br><span class="line">            source = layoutComp;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ListPool&lt;Component&gt;.Release(components);</span><br><span class="line">    <span class="keyword">return</span> min;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+上述代码是关于ILayoutElement的优先级，当一个组件包含多个LayoutElement到底使用哪个的解释。
+<figure class="highlight csharp"><figcaption><span>HorizontalOrVerticalLayoutGroup.cs</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">GetChildSizes</span>(<span class="params">RectTransform child, <span class="built_in">int</span> axis, <span class="built_in">bool</span> controlSize, <span class="built_in">bool</span> childForceExpand,</span></span></span><br><span class="line"><span class="params"><span class="function">    <span class="keyword">out</span> <span class="built_in">float</span> min, <span class="keyword">out</span> <span class="built_in">float</span> preferred, <span class="keyword">out</span> <span class="built_in">float</span> flexible</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (!controlSize)</span><br><span class="line">    &#123;</span><br><span class="line">        min = child.sizeDelta[axis];</span><br><span class="line">        preferred = min;</span><br><span class="line">        flexible = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        min = LayoutUtility.GetMinSize(child, axis);</span><br><span class="line">        preferred = LayoutUtility.GetPreferredSize(child, axis);</span><br><span class="line">        flexible = LayoutUtility.GetFlexibleSize(child, axis);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (childForceExpand)</span><br><span class="line">        flexible = Mathf.Max(flexible, <span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+上述代码是LayoutGroup布局子物体是调用HorizontalOrVerticalLayoutGroup.GetChildSize()方法中实现,controlSize必须为True才生效
+
+<p><i>关于ContentSizeFitter控制自身的LayoutElement</i><br>具体在ContentSizeFitter.HandleSelfFittingAlongAxis(int axis)实现的</p>
+<figure class="highlight csharp"><figcaption><span>ContentSizeFitter.cs</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> Calculate and apply the horizontal component of the size to the RectTransform</span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">SetLayoutHorizontal</span>()</span></span><br><span class="line">&#123;</span><br><span class="line">    m_Tracker.Clear();</span><br><span class="line">    HandleSelfFittingAlongAxis(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">HandleSelfFittingAlongAxis</span>(<span class="params"><span class="built_in">int</span> axis</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    FitMode fitting = (axis == <span class="number">0</span> ? horizontalFit : verticalFit);</span><br><span class="line">    <span class="keyword">if</span> (fitting == FitMode.Unconstrained)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// Keep a reference to the tracked transform, but don&#x27;t control its properties:</span></span><br><span class="line">        m_Tracker.Add(<span class="keyword">this</span>, rectTransform, DrivenTransformProperties.None);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    m_Tracker.Add(<span class="keyword">this</span>, rectTransform, (axis == <span class="number">0</span> ? DrivenTransformProperties.SizeDeltaX : DrivenTransformProperties.SizeDeltaY));</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Set size to min or preferred size</span></span><br><span class="line">    <span class="keyword">if</span> (fitting == FitMode.MinSize)</span><br><span class="line">        rectTransform.SetSizeWithCurrentAnchors((RectTransform.Axis)axis, LayoutUtility.GetMinSize(m_Rect, axis));</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        rectTransform.SetSizeWithCurrentAnchors((RectTransform.Axis)axis, LayoutUtility.GetPreferredSize(m_Rect, axis));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<img src="/2024/08/07/UGUI%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-LayoutGroup/game.jpg" class="" title="极限竞速:地平线5">
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/07/30/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%A4%A7%E8%AF%9D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%80%BB%E7%BB%93-%E8%A1%8C%E4%B8%BA%E5%9E%8B-%E4%B8%AD%E4%BB%8B%E8%80%85/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="xulinjia">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="徐麟家的博客">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 徐麟家的博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/07/30/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%A4%A7%E8%AF%9D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%80%BB%E7%BB%93-%E8%A1%8C%E4%B8%BA%E5%9E%8B-%E4%B8%AD%E4%BB%8B%E8%80%85/" class="post-title-link" itemprop="url">设计模式-大话设计模式总结-行为型->中介者</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-07-30 16:10:18" itemprop="dateCreated datePublished" datetime="2024-07-30T16:10:18+08:00">2024-07-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-10-23 23:38:07" itemprop="dateModified" datetime="2024-10-23T23:38:07+08:00">2024-10-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%A1%8C%E4%B8%BA%E5%9E%8B/" itemprop="url" rel="index"><span itemprop="name">行为型</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>206</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>1 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <img src="/2024/07/30/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%A4%A7%E8%AF%9D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%80%BB%E7%BB%93-%E8%A1%8C%E4%B8%BA%E5%9E%8B-%E4%B8%AD%E4%BB%8B%E8%80%85/%E8%A1%8C%E4%B8%BA%E5%9E%8B2-%E4%B8%AD%E4%BB%8B%E8%80%85.png" class="">
+
+<h3>点评</h3>
+1、尽管将一个系统分割成许多对象通常可以增加其可复用性，但是对象间相互连接的激增又会降低其可复用性了。</br>
+2、通过中介者对象，可以将系统的网状结构变成以中介者为中心的星形结构，每个具体对象不再通过直接的联系与另一个对象发生相互作用，而是通过‘中介者’对象与另一个对象发生相互作用。中介者对象的设计，使得系统的结构不会因为新对象的引入造成大量的修改工作</br>
+如下图两个图是中介者模式的应用场景：
+<img src="/2024/07/30/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%A4%A7%E8%AF%9D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%80%BB%E7%BB%93-%E8%A1%8C%E4%B8%BA%E5%9E%8B-%E4%B8%AD%E4%BB%8B%E8%80%85/cp1.png" class="">
+<div style="text-align: center;">↓↓↓↓↓↓↓</div>
+<img src="/2024/07/30/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%A4%A7%E8%AF%9D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%80%BB%E7%BB%93-%E8%A1%8C%E4%B8%BA%E5%9E%8B-%E4%B8%AD%E4%BB%8B%E8%80%85/cp2.png" class="">
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/07/22/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%A4%A7%E8%AF%9D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%80%BB%E7%BB%93-%E8%A1%8C%E4%B8%BA%E5%9E%8B-%E8%A7%A3%E9%87%8A%E5%99%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="xulinjia">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="徐麟家的博客">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 徐麟家的博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/07/22/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%A4%A7%E8%AF%9D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%80%BB%E7%BB%93-%E8%A1%8C%E4%B8%BA%E5%9E%8B-%E8%A7%A3%E9%87%8A%E5%99%A8/" class="post-title-link" itemprop="url">设计模式-大话设计模式总结-行为型->解释器</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-07-22 18:53:16" itemprop="dateCreated datePublished" datetime="2024-07-22T18:53:16+08:00">2024-07-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-10-23 23:38:07" itemprop="dateModified" datetime="2024-10-23T23:38:07+08:00">2024-10-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%A1%8C%E4%B8%BA%E5%9E%8B/" itemprop="url" rel="index"><span itemprop="name">行为型</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>109</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>1 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <img src="/2024/07/22/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%A4%A7%E8%AF%9D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%80%BB%E7%BB%93-%E8%A1%8C%E4%B8%BA%E5%9E%8B-%E8%A7%A3%E9%87%8A%E5%99%A8/%E8%A1%8C%E4%B8%BA%E5%9E%8B2-%E8%A7%A3%E9%87%8A%E5%99%A8.png" class="">
+
+<h3>点评</h3>
+用了解释器模式，就意味着可以很容易地改变和扩展文法，因为该模式使用类来表示文法规则，你可使用继承来改变或扩展该文法。也比较容易实现文法，因为定义抽象语法树中各个节点的类的实现大体类似，这些类都易于直接编写.
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -185,9 +980,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2024-07-22 00:04:38 / 修改时间：00:37:26" itemprop="dateCreated datePublished" datetime="2024-07-22T00:04:38+08:00">2024-07-22</time>
+      <time title="创建时间：2024-07-22 00:04:38" itemprop="dateCreated datePublished" datetime="2024-07-22T00:04:38+08:00">2024-07-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-10-23 23:38:07" itemprop="dateModified" datetime="2024-10-23T23:38:07+08:00">2024-10-23</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -204,6 +1005,21 @@
     </span>
 
   
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>234</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>1 分钟</span>
+    </span>
 </div>
 
         </div>
@@ -223,6 +1039,121 @@
 </br>
 <blockquote><p><i>大多时候你并不需要访问者模式，但当一旦你需要访问者模式时，那就是真的需要它了.</i></p>
 <footer><strong>GOF</strong><cite>设计模式</cite></footer></blockquote>
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/07/20/Uniyt%E8%84%9A%E6%9C%AC%E8%AE%BE%E7%BD%AESpriteAtlas%E5%B1%9E%E6%80%A7%E7%9A%84%E7%9A%84%E4%B8%80%E4%BA%9B%E6%8A%80%E5%B7%A7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="xulinjia">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="徐麟家的博客">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 徐麟家的博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/07/20/Uniyt%E8%84%9A%E6%9C%AC%E8%AE%BE%E7%BD%AESpriteAtlas%E5%B1%9E%E6%80%A7%E7%9A%84%E7%9A%84%E4%B8%80%E4%BA%9B%E6%8A%80%E5%B7%A7/" class="post-title-link" itemprop="url">Uniyt脚本设置SpriteAtlas属性的的一些技巧</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-07-20 18:39:42" itemprop="dateCreated datePublished" datetime="2024-07-20T18:39:42+08:00">2024-07-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-10-23 23:38:07" itemprop="dateModified" datetime="2024-10-23T23:38:07+08:00">2024-10-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Unity/" itemprop="url" rel="index"><span itemprop="name">Unity</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Unity/%E6%9D%82%E9%A1%B9/" itemprop="url" rel="index"><span itemprop="name">杂项</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>380</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>1 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3>通过批处理脚本设置图集的一些参数</h3>
+    一下代码可以自动找到相关的目录下的图集，根据统一的参数配置一键设置好图集参数，并且立即打包所有图集，开发中比较实用的。
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">AtlasCompressEditor</span></span><br><span class="line">&#123;</span><br><span class="line">    [<span class="meta">MenuItem(<span class="string">&quot;Package/Atlas/图集压缩_设置矫正&quot;</span>, priority = 1003)</span>]</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">AltasCompress</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">string</span>[] guids = AssetDatabase.FindAssets(<span class="string">&quot;t:spriteatlas&quot;</span>,<span class="keyword">new</span>[] &#123;<span class="string">&quot;Assets/Art/UIAtlas&quot;</span>&#125;);</span><br><span class="line">        <span class="keyword">foreach</span> (<span class="keyword">var</span> id <span class="keyword">in</span> guids)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">var</span> p = AssetDatabase.GUIDToAssetPath(id);</span><br><span class="line">            SpriteAtlas atlas = AssetDatabase.LoadAssetAtPath(p, <span class="keyword">typeof</span>(SpriteAtlas)) <span class="keyword">as</span> SpriteAtlas;</span><br><span class="line">            atlas.SetIncludeInBuild(<span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">var</span> packSetting = atlas.GetPackingSettings();</span><br><span class="line">            packSetting.blockOffset = <span class="number">1</span>;</span><br><span class="line">            packSetting.enableRotation = <span class="literal">false</span>;</span><br><span class="line">            packSetting.padding = <span class="number">2</span>;</span><br><span class="line">            packSetting.enableTightPacking = <span class="literal">false</span>;</span><br><span class="line">            atlas.SetPackingSettings(packSetting);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">var</span> texture_setting = atlas.GetTextureSettings();</span><br><span class="line">            texture_setting.generateMipMaps = <span class="literal">false</span>;</span><br><span class="line">            texture_setting.filterMode = FilterMode.Bilinear;</span><br><span class="line">            atlas.SetTextureSettings(texture_setting);</span><br><span class="line"></span><br><span class="line">            TextureImporterPlatformSettings android_setting = <span class="keyword">new</span> TextureImporterPlatformSettings();</span><br><span class="line">            android_setting.name = BuildPipeline.GetBuildTargetName(BuildTarget.Android);</span><br><span class="line">            android_setting.overridden = <span class="literal">true</span>;</span><br><span class="line">            android_setting.textureCompression = TextureImporterCompression.Compressed;</span><br><span class="line">            android_setting.format = TextureImporterFormat.ASTC_6x6;</span><br><span class="line"></span><br><span class="line">            TextureImporterPlatformSettings phone_setting = <span class="keyword">new</span> TextureImporterPlatformSettings();</span><br><span class="line">            phone_setting.name = BuildPipeline.GetBuildTargetName(BuildTarget.iOS);</span><br><span class="line">            phone_setting.overridden = <span class="literal">true</span>;</span><br><span class="line">            phone_setting.textureCompression = TextureImporterCompression.Compressed;</span><br><span class="line">            phone_setting.format = TextureImporterFormat.ASTC_6x6;</span><br><span class="line">            atlas.SetPlatformSettings(android_setting);</span><br><span class="line">            atlas.SetPlatformSettings(phone_setting);</span><br><span class="line"></span><br><span class="line">            AssetDatabase.SaveAssetIfDirty(atlas);</span><br><span class="line">        &#125;</span><br><span class="line">        SpriteAtlasUtility.PackAllAtlases(EditorUserBuildSettings.activeBuildTarget);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4>解释和要点</h4>
+    1、AssetDatabase.FindAssets中可以增加对应的图集目录，代码会依次设置</br>
+    2、SpriteAtlas.SetPackingSettings 设置图片资源的相关格式,图集也是一张图片可以使用图片压缩格式</br>
+    3、SpriteAtlasUtility.PackAllAtlases 打包所有的图集</br>
+    4、Sprite Atlas 版本 1 和 Sprite Atlas 版本 2 不兼容</br>
+    5、本代码只能用于spriteatlasv1版本的图集设置，关于新版本的v2图集目前官方不支持通过脚本编辑 Sprite Atlas 版本 2，至此2024/07还未提供。</br>
+    博主也是查了好多网上的资料才发现这点的,不是很明显,到目前为止博主还是建议使用Sprite Atlas 版本 1。希望能帮助到各位开发者。官网截图如下:</br>
+    <img src="/2024/07/20/Uniyt%E8%84%9A%E6%9C%AC%E8%AE%BE%E7%BD%AESpriteAtlas%E5%B1%9E%E6%80%A7%E7%9A%84%E7%9A%84%E4%B8%80%E4%BA%9B%E6%8A%80%E5%B7%A7/unity_doc.jpg" class="">
+
+
       
     </div>
 
@@ -284,7 +1215,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-07-22 00:02:17" itemprop="dateModified" datetime="2024-07-22T00:02:17+08:00">2024-07-22</time>
+      <time title="修改时间：2024-10-23 23:38:07" itemprop="dateModified" datetime="2024-10-23T23:38:07+08:00">2024-10-23</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -301,6 +1232,21 @@
     </span>
 
   
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>950</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>3 分钟</span>
+    </span>
 </div>
 
         </div>
@@ -358,780 +1304,8 @@ C#中foreach语法糖，会被编译器实现未一个while循环语法，以访
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/06/12/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%A4%A7%E8%AF%9D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%80%BB%E7%BB%93-%E8%A1%8C%E4%B8%BA%E5%9E%8B-%E7%AD%96%E7%95%A5/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="xulinjia">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="徐麟家的博客">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 徐麟家的博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/06/12/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%A4%A7%E8%AF%9D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%80%BB%E7%BB%93-%E8%A1%8C%E4%B8%BA%E5%9E%8B-%E7%AD%96%E7%95%A5/" class="post-title-link" itemprop="url">设计模式-大话设计模式总结-行为型->策略</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2024-06-12 08:21:17 / 修改时间：09:01:20" itemprop="dateCreated datePublished" datetime="2024-06-12T08:21:17+08:00">2024-06-12</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%A1%8C%E4%B8%BA%E5%9E%8B/" itemprop="url" rel="index"><span itemprop="name">行为型</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <img src="/2024/06/12/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%A4%A7%E8%AF%9D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%80%BB%E7%BB%93-%E8%A1%8C%E4%B8%BA%E5%9E%8B-%E7%AD%96%E7%95%A5/%E8%A1%8C%E4%B8%BA%E5%9E%8B2-%E7%AD%96%E7%95%A5.png" class="">
-<h3>点评</h3>
-策略模式是一种定义一系列算法的方法，从概念上来看，所有这些算法完成的都是相同的工作，只是实现不同，它可以以相同的方式调用所有的算法，减少了各种算法类与使用算法类之间的耦合。<br>
-策略模式的Strategy类层次为Context定义了一系列的可供重用的算法或行为。继承有助于析取出这些算法中的公共功能。<br>
-策略模式就是用来封装算法的，但在实践中，我们发现可以用它来封装几乎任何类型的规则，只要在分析过程中听到需要在不同时间应用不同的业务规则，就可以考虑使用策略模式处理这种变化的可能性。<br>
-在基本的策略模式中，选择所用具体实现的职责由客户端对象承担，并转给策略模式的Context对象。
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/05/29/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%A4%A7%E8%AF%9D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%80%BB%E7%BB%93-%E8%A1%8C%E4%B8%BA%E5%9E%8B-%E5%A4%87%E5%BF%98%E5%BD%95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="xulinjia">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="徐麟家的博客">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 徐麟家的博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/05/29/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%A4%A7%E8%AF%9D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%80%BB%E7%BB%93-%E8%A1%8C%E4%B8%BA%E5%9E%8B-%E5%A4%87%E5%BF%98%E5%BD%95/" class="post-title-link" itemprop="url">设计模式-大话设计模式总结-行为型->备忘录</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2024-05-29 16:52:14" itemprop="dateCreated datePublished" datetime="2024-05-29T16:52:14+08:00">2024-05-29</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-06-01 18:10:31" itemprop="dateModified" datetime="2024-06-01T18:10:31+08:00">2024-06-01</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%A1%8C%E4%B8%BA%E5%9E%8B/" itemprop="url" rel="index"><span itemprop="name">行为型</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <img src="/2024/05/29/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%A4%A7%E8%AF%9D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%80%BB%E7%BB%93-%E8%A1%8C%E4%B8%BA%E5%9E%8B-%E5%A4%87%E5%BF%98%E5%BD%95/%E8%A1%8C%E4%B8%BA%E5%9E%8B2-%E5%A4%87%E5%BF%98%E5%BD%95.png" class="">
-<p>Originator（发起人）：负责创建一个备忘录Memento，用以记录当前时刻它的内部状态，并可使用备忘录恢复内部状态。Originator可根据需要决定Memento存储Originator的哪些内部状态。</br><br>Memento（备忘录）：负责存储Originator对象的内部状态，并可防止Originator以外的其他对象访问备忘录Memento。备忘录有两个接口，Caretaker只能看到备忘录的窄接口，它只能将备忘录传递给其他对象。Originator能够看到一个宽接口，允许它访问返回到先前状态所需的所有数据。</br><br>Caretaker（管理者）：负责保存好备忘录Memento，不能对备忘录的内容进行操作或检查</br></p>
-<h6>
-命令模式可以使用备忘录模式来存储可撤销操作的状态[DP]。有时一些对象的内部信息必须保存在对象以外的地方，但是必须要由对象自己读取，这时，使用备忘录可以把复杂的对象内部信息对其他的对象屏蔽起来[DP]，从而可以恰当地保持封装的边界。
-</h6>
-<h3>点评</h3>
-备忘录模式很好的展示单一职责。程序设计中注重的边界，合理组织类功能的协作，对未来程序的拓展和使用有着至关重要的的影响！
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/05/10/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%A4%A7%E8%AF%9D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%80%BB%E7%BB%93-%E8%A1%8C%E4%B8%BA%E5%9E%8B-%E7%8A%B6%E6%80%81/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="xulinjia">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="徐麟家的博客">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 徐麟家的博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/05/10/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%A4%A7%E8%AF%9D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%80%BB%E7%BB%93-%E8%A1%8C%E4%B8%BA%E5%9E%8B-%E7%8A%B6%E6%80%81/" class="post-title-link" itemprop="url">设计模式-大话设计模式总结-行为型->状态</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2024-05-10 22:07:31 / 修改时间：22:30:20" itemprop="dateCreated datePublished" datetime="2024-05-10T22:07:31+08:00">2024-05-10</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%A1%8C%E4%B8%BA%E5%9E%8B/" itemprop="url" rel="index"><span itemprop="name">行为型</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <img src="/2024/05/10/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%A4%A7%E8%AF%9D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%80%BB%E7%BB%93-%E8%A1%8C%E4%B8%BA%E5%9E%8B-%E7%8A%B6%E6%80%81/%E8%A1%8C%E4%B8%BA%E5%9E%8B1-%E7%8A%B6%E6%80%81.png" class="">
-
-<h3>点评</h3>
-当一个对象的行为取决于它的状态，并且它必须在运行时刻根据状态改变它的行为时，就可以考虑使用状态模式了。优点：状态模式的好处是将与特定状态相关的行为局部化，并且将不同状态的行为分割开来。
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/05/08/Unity%E4%B8%AD%E4%BD%BF%E7%94%A8%E5%A4%96%E9%83%A8CSharpdll%E9%85%8D%E7%BD%AE%E6%96%AD%E7%82%B9%E8%B0%83%E8%AF%95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="xulinjia">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="徐麟家的博客">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 徐麟家的博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/05/08/Unity%E4%B8%AD%E4%BD%BF%E7%94%A8%E5%A4%96%E9%83%A8CSharpdll%E9%85%8D%E7%BD%AE%E6%96%AD%E7%82%B9%E8%B0%83%E8%AF%95/" class="post-title-link" itemprop="url">Unity中使用外部C#dll配置断点调试</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2024-05-08 15:33:46" itemprop="dateCreated datePublished" datetime="2024-05-08T15:33:46+08:00">2024-05-08</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-05-10 22:02:23" itemprop="dateModified" datetime="2024-05-10T22:02:23+08:00">2024-05-10</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Unity/" itemprop="url" rel="index"><span itemprop="name">Unity</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Unity/%E6%9D%82%E9%A1%B9/" itemprop="url" rel="index"><span itemprop="name">杂项</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3>本文总结个人使用unity调试第三方库的些许经验</h3>
-<h5>解释关于dll，pdb，mdb的概念</h5>
-<h6>dll:</h6>
-DLL（Dynamic Link Library）是一种微软Windows操作系统中常见的文件类型，它包含了一系列的可执行代码以及数据，这些代码和数据可以被其他程序调用和使用。
-DLL文件通常包含了一个或多个函数、数据、类、资源等，这些可以被其他程序使用。与静态链接库（Static Link Library）不同，DLL在运行时动态加载到内存中，因此它们被称为动态链接库。
-DLL文件的主要优点是可以共享代码和数据，避免了代码的重复编写，提高了代码的重用性。通过将常用的功能封装到DLL中，其他程序可以通过简单地调用DLL中的函数或使用其中的类来实现相应的功能，从而简化了开发过程。
-<h6>pdb:</h6>
-PDB（Program Database）是一种微软Windows平台上的调试信息文件格式，用于存储编译后的程序的调试信息。这些调试信息包括了源代码文件、行号、变量名称、函数名称等。
-</p>
-PDB文件通常与编译后的可执行文件（例如.EXE或.DLL）一起生成。它们包含了编译器产生的调试符号信息，以及源代码的位置信息，使得调试器能够将执行的机器码映射回源代码，并且在调试器中显示正确的变量名称和行号等信息。
-</p>
-在调试过程中，开发者可以使用PDB文件来设置断点、查看变量值、跟踪函数调用等操作，以帮助定位和解决代码中的问题。
-<h6>mdb:</h6>
-在上下文中，"mdb"通常指的是Mono调试符号文件（Mono Debug Symbol），它是用于在Mono环境中进行调试的文件。
-</p>
-在Unity中，当你编译C#脚本时，Unity会生成相应的可执行文件（例如.dll文件），以及用于调试的.mdb文件。这个.mdb文件包含了调试信息，如源代码文件、行号、变量名称等，以便在Unity编辑器中进行调试。调试信息使得你能够在代码中设置断点、查看变量的值以及执行其他调试操作。
-</p>
-因此，在Unity中，如果你想要在编辑器下调试C#脚本，你通常需要对应的.mdb文件。
-<h6>unity Editor是运行在mono环境中的，应该使用mdb文件获取调试信息的，为什么也能使用pdb文件获取调试信息？</h6>
-Unity的脚本（主要是C#脚本）在运行时是通过Mono运行时来执行的。Mono是一个跨平台的.NET实现，它与微软的.NET框架兼容，并且提供了一些额外的功能和扩展。
-</p>
-PDB（Program Database）是微软.NET编译器产生的调试信息文件，通常用于在Windows平台上进行调试。这些文件包含了源代码的位置、变量和函数的调试信息等。
-</p>
-尽管Unity使用Mono作为脚本的运行时环境，但是Unity编辑器和Mono运行时之间并没有直接关联，因此Unity编辑器默认情况下不会使用PDB文件进行调试。
-</p>
-然而，你可以使用一些第三方工具或技术来进行调试，比如你可以使用Visual Studio作为外部调试器来调试Unity项目，这样你就可以利用PDB文件进行调试了。不过，这种方法相对复杂，而且在跨平台开发中可能不是最佳选择。
-</p>
-在Unity中，通常使用的是.mdb文件来进行调试，因为Unity编辑器和Mono运行时直接支持.mdb文件，这使得在Unity编辑器中进行调试更加方便。
-
-<h5>在unity中使用pdb特别注意点</h5>
-在unity中使用的pdb要求是便携的pdb文件，如果使用通常意义的pdb，unity是没有办法读取的。会有如下警告图示，无法读取源程序符号信息。
-Unity is only able to load mdb or portable-pdb symbols. Assets/GameFramework/Libraries/GameFramework.pdb is using a legacy pdb format.
-
-我们可以通过修改dll库源代码（当然是需要有源码，或者已经提供配套的pdb文件）编译器选项解决这个问题。调试信息选择可移植，如下图：
-
-
-<h3>实操</h3>
-按以上方法生成好pdb文件一并放入unity资产目录中（任意Assets目录下）。
-
-断点调试截图：
-
-
-
-
-
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/04/28/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%A4%A7%E8%AF%9D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%80%BB%E7%BB%93-%E8%A1%8C%E4%B8%BA%E5%9E%8B-%E8%B4%A3%E4%BB%BB%E9%93%BE/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="xulinjia">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="徐麟家的博客">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 徐麟家的博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/04/28/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%A4%A7%E8%AF%9D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%80%BB%E7%BB%93-%E8%A1%8C%E4%B8%BA%E5%9E%8B-%E8%B4%A3%E4%BB%BB%E9%93%BE/" class="post-title-link" itemprop="url">设计模式-大话设计模式总结-行为型->责任链</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2024-04-28 23:00:04 / 修改时间：23:22:41" itemprop="dateCreated datePublished" datetime="2024-04-28T23:00:04+08:00">2024-04-28</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%A1%8C%E4%B8%BA%E5%9E%8B/" itemprop="url" rel="index"><span itemprop="name">行为型</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <img src="/2024/04/28/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%A4%A7%E8%AF%9D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%80%BB%E7%BB%93-%E8%A1%8C%E4%B8%BA%E5%9E%8B-%E8%B4%A3%E4%BB%BB%E9%93%BE/%E8%A1%8C%E4%B8%BA%E5%9E%8B1-%E8%B4%A3%E4%BB%BB%E9%93%BE.png" class="">
-
-<h3>点评</h3>
-好处是请求者不用管哪个对象来处理。 接收者和发送者都没有对方的明确信息，且链中的对象自己也并不知道链的结构。结果是职责链可简化对象的相互连接，它们仅需保持一个指向其后继者的引用，而不需保持它所有的候选接受者的引用[DP]。
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/04/23/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%A4%A7%E8%AF%9D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%80%BB%E7%BB%93-%E8%A1%8C%E4%B8%BA%E5%9E%8B-%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="xulinjia">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="徐麟家的博客">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 徐麟家的博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/04/23/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%A4%A7%E8%AF%9D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%80%BB%E7%BB%93-%E8%A1%8C%E4%B8%BA%E5%9E%8B-%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95/" class="post-title-link" itemprop="url">设计模式-大话设计模式总结-行为型->模板方法</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2024-04-23 17:12:33" itemprop="dateCreated datePublished" datetime="2024-04-23T17:12:33+08:00">2024-04-23</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-04-28 22:58:49" itemprop="dateModified" datetime="2024-04-28T22:58:49+08:00">2024-04-28</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%A1%8C%E4%B8%BA%E5%9E%8B/" itemprop="url" rel="index"><span itemprop="name">行为型</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <img src="/2024/04/23/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%A4%A7%E8%AF%9D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%80%BB%E7%BB%93-%E8%A1%8C%E4%B8%BA%E5%9E%8B-%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95/%E8%A1%8C%E4%B8%BA%E5%9E%8B1-%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95.png" class="">
-
-<h3>点评</h3>
-模板方法定义统一的流程骨架，部分差异的方法可在超类中修改。在效果上，有点类似于创建者模式。模板方法更侧重行为流程控制，结构简洁明了；创建者更侧重对象的灵活创建；创建者是多个类组合完成一个整体的功能，结构会复杂些。模板方法让我想到了unity中的可编程渲染管线，在整理流程不变的情况下，为用户开放了顶点着色器（vertex）和片元着色器（fragment），这大大丰富了用户的可操作性，又不失整体流程的控制。从某种程度讲设计模式或许就是现实方法论的总结，它一直都在我们身边。
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/04/22/Movement-Pack%E5%B9%B6%E4%B8%94%E4%BD%BF%E7%94%A8A-Pathfinding-Project%E4%BD%9C%E4%B8%BA%E5%AF%BB%E8%B7%AF%E6%96%B9%E6%A1%88/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="xulinjia">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="徐麟家的博客">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 徐麟家的博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/04/22/Movement-Pack%E5%B9%B6%E4%B8%94%E4%BD%BF%E7%94%A8A-Pathfinding-Project%E4%BD%9C%E4%B8%BA%E5%AF%BB%E8%B7%AF%E6%96%B9%E6%A1%88/" class="post-title-link" itemprop="url">Behavior-Designer集成Movement-Pack并且使用A*Pathfinding-Project作为寻路方案</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2024-04-22 17:51:56 / 修改时间：22:11:40" itemprop="dateCreated datePublished" datetime="2024-04-22T17:51:56+08:00">2024-04-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Unity/" itemprop="url" rel="index"><span itemprop="name">Unity</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Unity/%E6%9D%82%E9%A1%B9/" itemprop="url" rel="index"><span itemprop="name">杂项</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>主要是想分下集成A* Pathfinding Project作为Behavior Designer作为寻路的解决方案，官方文档记录的不是很详细，希望能帮助到大家。<br>首先概述下两个插件 <br><br>（1）A* Pathfinding Project Pro，主要是用来做寻路，包括自动寻路网格生成的方案，能为开发省很多时间，当然也买的非常好用!<br></p>
-<img src="/2024/04/22/Movement-Pack%E5%B9%B6%E4%B8%94%E4%BD%BF%E7%94%A8A-Pathfinding-Project%E4%BD%9C%E4%B8%BA%E5%AF%BB%E8%B7%AF%E6%96%B9%E6%A1%88/pathfinding.png" class="">
-<p>（2）Behavior Designer 做ai行为树插件，unity项目中使用的比较多。还有子集成包：</br><br>    a、movement 运动包</br><br>    b、Tactical Pack 战术包</br><br>    c、Formations Pack 编队包</br></p>
-<img src="/2024/04/22/Movement-Pack%E5%B9%B6%E4%B8%94%E4%BD%BF%E7%94%A8A-Pathfinding-Project%E4%BD%9C%E4%B8%BA%E5%AF%BB%E8%B7%AF%E6%96%B9%E6%A1%88/behavior-designer.png" class="">
-<p>我想集成的是MovePack能支持 A* Pathfinding Project 的寻路。当我导入MovePack的插件包时候并没有发现有A* pathfinding的支持，只有默认的unity navemesh支持？</p>
-<img src="/2024/04/22/Movement-Pack%E5%B9%B6%E4%B8%94%E4%BD%BF%E7%94%A8A-Pathfinding-Project%E4%BD%9C%E4%B8%BA%E5%AF%BB%E8%B7%AF%E6%96%B9%E6%A1%88/doc.png" class="">
-<p>和文档上说的不一样，只有默认的集成，没有Pathfinding Project的集成，我的项目截图如下:</p>
-<img src="/2024/04/22/Movement-Pack%E5%B9%B6%E4%B8%94%E4%BD%BF%E7%94%A8A-Pathfinding-Project%E4%BD%9C%E4%B8%BA%E5%AF%BB%E8%B7%AF%E6%96%B9%E6%A1%88/movement.png" class="">
-<p>反复研究完文档后，原来需要在官网下载movement对A* 相关行为树的集成，并不是默认包中带的，需要输入序列号后要再下载下图第一个集成包（A* Pathfinding Project 相关集成）。</p>
-<img src="/2024/04/22/Movement-Pack%E5%B9%B6%E4%B8%94%E4%BD%BF%E7%94%A8A-Pathfinding-Project%E4%BD%9C%E4%B8%BA%E5%AF%BB%E8%B7%AF%E6%96%B9%E6%A1%88/integration.png" class=""> 
-<p>下载完，导入项目后，终于有关于pathfing的Task了。如下图：</p>
-<img src="/2024/04/22/Movement-Pack%E5%B9%B6%E4%B8%94%E4%BD%BF%E7%94%A8A-Pathfinding-Project%E4%BD%9C%E4%B8%BA%E5%AF%BB%E8%B7%AF%E6%96%B9%E6%A1%88/integration-n.png" class=""> 
-<p>最后，想说下在上文提到的这几个软件都是需要付费购买序列号的，希望大家使用和支持正版软件！</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/04/19/Spine%E6%97%A0%E9%9C%80%E5%85%89%E7%85%A7%E7%9A%84%E9%98%B4%E5%BD%B1%E5%AE%9E%E7%8E%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="xulinjia">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="徐麟家的博客">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 徐麟家的博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/04/19/Spine%E6%97%A0%E9%9C%80%E5%85%89%E7%85%A7%E7%9A%84%E9%98%B4%E5%BD%B1%E5%AE%9E%E7%8E%B0/" class="post-title-link" itemprop="url">Spine无需光照的阴影实现</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2024-04-19 13:17:18" itemprop="dateCreated datePublished" datetime="2024-04-19T13:17:18+08:00">2024-04-19</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-07-22 00:02:17" itemprop="dateModified" datetime="2024-07-22T00:02:17+08:00">2024-07-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Unity/" itemprop="url" rel="index"><span itemprop="name">Unity</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Unity/%E6%9D%82%E9%A1%B9/" itemprop="url" rel="index"><span itemprop="name">杂项</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3>阴影生成的实现方式</h3>
-1.实时光照 </br>
-2.脚底放置假的阴影面片模拟阴影 </br>
-3.变幻模型在某个平面上投影形成2d压缩模型 </br>
-4.project投影器 </br>
-<h3>具体做法</h3>
-<p> 这里我们使用方案3方案实现，因为spine是2d的投影替换为使用旋转和切变来实现。具体实现通过两个pass，第一个pass做模型的变换处理，生成一个阴影；第二个pass使用默认的渲染画出本身的模型。</p>
-<h6><a href=https://github.com/xulinjia/spine_shadow>github工程连接：https://github.com/xulinjia/spine_shadow</a></h6>
-<h6>shader代码如下：</h6>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Shader <span class="string">&quot;Spine/SkeletonShadow&quot;</span> &#123;</span><br><span class="line">	Properties &#123;</span><br><span class="line">		_ShadowColor(<span class="string">&quot;ShadowColor&quot;</span>,Color) = (<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0.5</span>)	<span class="comment">//阴影颜色</span></span><br><span class="line">		_ShadowDdge(<span class="string">&quot;ShadowDege&quot;</span>,range(<span class="number">0</span>,<span class="number">1.507</span>)) = <span class="number">0</span>		<span class="comment">//绕x轴的旋转角度</span></span><br><span class="line">		_ShadowCutD(<span class="string">&quot;_ShadowCutD&quot;</span>,<span class="built_in">float</span>) = <span class="number">0.5</span>				<span class="comment">//切变距离</span></span><br><span class="line">		_ShadowHeightScale(<span class="string">&quot;_ShadowHeight&quot;</span>,<span class="built_in">float</span>) = <span class="number">1</span>		<span class="comment">// 影子高度比例</span></span><br><span class="line">		_Cutoff (<span class="string">&quot;Shadow alpha cutoff&quot;</span>, Range(<span class="number">0</span>,<span class="number">1</span>)) = <span class="number">0.1</span></span><br><span class="line">		[<span class="meta">NoScaleOffset</span>] _MainTex (<span class="string">&quot;Main Texture&quot;</span>, <span class="number">2</span>D) = <span class="string">&quot;black&quot;</span> &#123;&#125;</span><br><span class="line">		[<span class="meta">Toggle(_STRAIGHT_ALPHA_INPUT)</span>] _StraightAlphaInput(<span class="string">&quot;Straight Alpha Texture&quot;</span>, Int) = <span class="number">0</span></span><br><span class="line">		[<span class="meta">HideInInspector</span>] _StencilRef(<span class="string">&quot;Stencil Reference&quot;</span>, Float) = <span class="number">1.0</span></span><br><span class="line">		[<span class="meta">HideInInspector</span>][Enum(UnityEngine.Rendering.CompareFunction)] _StencilComp(<span class="string">&quot;Stencil Comparison&quot;</span>, Float) = <span class="number">8</span> <span class="comment">// Set to Always as default</span></span><br><span class="line"></span><br><span class="line">		<span class="comment">// Outline properties are drawn via custom editor.</span></span><br><span class="line">		[<span class="meta">HideInInspector</span>] _OutlineWidth(<span class="string">&quot;Outline Width&quot;</span>, Range(<span class="number">0</span>,<span class="number">8</span>)) = <span class="number">3.0</span></span><br><span class="line">		[<span class="meta">HideInInspector</span>] _OutlineColor(<span class="string">&quot;Outline Color&quot;</span>, Color) = (<span class="number">1</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">1</span>)</span><br><span class="line">		[<span class="meta">HideInInspector</span>] _OutlineReferenceTexWidth(<span class="string">&quot;Reference Texture Width&quot;</span>, Int) = <span class="number">1024</span></span><br><span class="line">		[<span class="meta">HideInInspector</span>] _ThresholdEnd(<span class="string">&quot;Outline Threshold&quot;</span>, Range(<span class="number">0</span>,<span class="number">1</span>)) = <span class="number">0.25</span></span><br><span class="line">		[<span class="meta">HideInInspector</span>] _OutlineSmoothness(<span class="string">&quot;Outline Smoothness&quot;</span>, Range(<span class="number">0</span>,<span class="number">1</span>)) = <span class="number">1.0</span></span><br><span class="line">		[<span class="meta">HideInInspector</span>][MaterialToggle(_USE8NEIGHBOURHOOD_ON)] _Use8Neighbourhood(<span class="string">&quot;Sample 8 Neighbours&quot;</span>, Float) = <span class="number">1</span></span><br><span class="line">		[<span class="meta">HideInInspector</span>] _OutlineOpaqueAlpha(<span class="string">&quot;Opaque Alpha&quot;</span>, Range(<span class="number">0</span>,<span class="number">1</span>)) = <span class="number">1.0</span></span><br><span class="line">		[<span class="meta">HideInInspector</span>] _OutlineMipLevel(<span class="string">&quot;Outline Mip Level&quot;</span>, Range(<span class="number">0</span>,<span class="number">3</span>)) = <span class="number">0</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	SubShader &#123;</span><br><span class="line">		Tags &#123; <span class="string">&quot;Queue&quot;</span>=<span class="string">&quot;Transparent&quot;</span> <span class="string">&quot;IgnoreProjector&quot;</span>=<span class="string">&quot;True&quot;</span> <span class="string">&quot;RenderType&quot;</span>=<span class="string">&quot;Transparent&quot;</span> <span class="string">&quot;PreviewType&quot;</span>=<span class="string">&quot;Plane&quot;</span> &#125;</span><br><span class="line"></span><br><span class="line">		Fog &#123; Mode Off &#125;</span><br><span class="line">		Cull Off</span><br><span class="line">		ZWrite Off</span><br><span class="line">		Blend One OneMinusSrcAlpha</span><br><span class="line">		Lighting Off</span><br><span class="line"></span><br><span class="line">		Stencil &#123;</span><br><span class="line">			Ref[_StencilRef]</span><br><span class="line">			Comp[_StencilComp]</span><br><span class="line">			Pass Keep</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		Pass &#123;</span><br><span class="line">			Name <span class="string">&quot;FastShadow&quot;</span></span><br><span class="line">			Blend SrcAlpha Zero</span><br><span class="line">			CGPROGRAM</span><br><span class="line">			<span class="meta">#<span class="keyword">pragma</span> shader_feature _ _STRAIGHT_ALPHA_INPUT</span></span><br><span class="line">			<span class="meta">#<span class="keyword">pragma</span> vertex vert</span></span><br><span class="line">			<span class="meta">#<span class="keyword">pragma</span> fragment frag</span></span><br><span class="line">			<span class="meta">#include &quot;UnityCG.cginc&quot;</span></span><br><span class="line">			<span class="meta">#include &quot;CGIncludes/Spine-Common.cginc&quot;</span></span><br><span class="line">			sampler2D _MainTex;</span><br><span class="line">			<span class="keyword">fixed</span> _Cutoff;</span><br><span class="line">			float4 _ShadowColor;</span><br><span class="line">			<span class="built_in">float</span> _ShadowDdge;</span><br><span class="line">			<span class="built_in">float</span> _ShadowCutD;</span><br><span class="line">			<span class="built_in">float</span> _ShadowHeightScale;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">struct</span> VertexInput &#123;</span><br><span class="line">				float4 vertex : POSITION;</span><br><span class="line">				float2 uv : TEXCOORD0;</span><br><span class="line">				float4 vertexColor : COLOR;</span><br><span class="line">			&#125;;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">struct</span> VertexOutput &#123;</span><br><span class="line">				float4 pos : SV_POSITION;</span><br><span class="line">				float2 uv : TEXCOORD0;</span><br><span class="line">				float4 vertexColor : COLOR;</span><br><span class="line">			&#125;;</span><br><span class="line"></span><br><span class="line">			<span class="function">VertexOutput <span class="title">vert</span> (<span class="params">VertexInput v</span>)</span> &#123;</span><br><span class="line">				VertexOutput o;</span><br><span class="line">				float4 vt = v.vertex;</span><br><span class="line">				float4 vtn;</span><br><span class="line">				vt.y *= _ShadowHeightScale;</span><br><span class="line">				vtn.x = vt.x + vt.y * _ShadowCutD;</span><br><span class="line">				vtn.y = cos(_ShadowDdge) * vt.y;</span><br><span class="line">				vtn.z = sin(_ShadowDdge) * vt.y;</span><br><span class="line">				vtn.w = vt.w;</span><br><span class="line">				o.pos = UnityObjectToClipPos(vtn);</span><br><span class="line">				o.uv = v.uv;</span><br><span class="line">				o.vertexColor = PMAGammaToTargetSpace(v.vertexColor);</span><br><span class="line">				<span class="keyword">return</span> o;</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			<span class="function">float4 <span class="title">frag</span> (<span class="params">VertexOutput i</span>) : SV_Target</span> &#123;</span><br><span class="line">				float4 texColor = tex2D(_MainTex, i.uv);</span><br><span class="line"></span><br><span class="line">				<span class="meta">#<span class="keyword">if</span> defined(_STRAIGHT_ALPHA_INPUT)</span></span><br><span class="line">				texColor.rgb *= texColor.a;</span><br><span class="line">				<span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line">				float4 shadowColor = _ShadowColor;</span><br><span class="line">				clip(texColor.a * i.vertexColor.a - <span class="number">0.01</span>);</span><br><span class="line">				<span class="keyword">return</span> shadowColor;</span><br><span class="line"></span><br><span class="line">			&#125;</span><br><span class="line">			ENDCG</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">		Pass &#123;</span><br><span class="line">			Name <span class="string">&quot;Normal&quot;</span></span><br><span class="line"></span><br><span class="line">			CGPROGRAM</span><br><span class="line">			<span class="meta">#<span class="keyword">pragma</span> shader_feature _ _STRAIGHT_ALPHA_INPUT</span></span><br><span class="line">			<span class="meta">#<span class="keyword">pragma</span> vertex vert</span></span><br><span class="line">			<span class="meta">#<span class="keyword">pragma</span> fragment frag</span></span><br><span class="line">			<span class="meta">#include &quot;UnityCG.cginc&quot;</span></span><br><span class="line">			<span class="meta">#include &quot;CGIncludes/Spine-Common.cginc&quot;</span></span><br><span class="line">			sampler2D _MainTex;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">struct</span> VertexInput &#123;</span><br><span class="line">				float4 vertex : POSITION;</span><br><span class="line">				float2 uv : TEXCOORD0;</span><br><span class="line">				float4 vertexColor : COLOR;</span><br><span class="line">			&#125;;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">struct</span> VertexOutput &#123;</span><br><span class="line">				float4 pos : SV_POSITION;</span><br><span class="line">				float2 uv : TEXCOORD0;</span><br><span class="line">				float4 vertexColor : COLOR;</span><br><span class="line">			&#125;;</span><br><span class="line"></span><br><span class="line">			<span class="function">VertexOutput <span class="title">vert</span> (<span class="params">VertexInput v</span>)</span> &#123;</span><br><span class="line">				VertexOutput o;</span><br><span class="line">				o.pos = UnityObjectToClipPos(v.vertex);</span><br><span class="line">				o.uv = v.uv;</span><br><span class="line">				o.vertexColor = PMAGammaToTargetSpace(v.vertexColor);</span><br><span class="line">				<span class="keyword">return</span> o;</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			<span class="function">float4 <span class="title">frag</span> (<span class="params">VertexOutput i</span>) : SV_Target</span> &#123;</span><br><span class="line">				float4 texColor = tex2D(_MainTex, i.uv);</span><br><span class="line"></span><br><span class="line">				<span class="meta">#<span class="keyword">if</span> defined(_STRAIGHT_ALPHA_INPUT)</span></span><br><span class="line">				texColor.rgb *= texColor.a;</span><br><span class="line">				<span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line">				<span class="keyword">return</span> (texColor * i.vertexColor);</span><br><span class="line">			&#125;</span><br><span class="line">			ENDCG</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		Pass &#123;</span><br><span class="line">			Name <span class="string">&quot;Caster&quot;</span></span><br><span class="line">			Tags &#123; <span class="string">&quot;LightMode&quot;</span>=<span class="string">&quot;ShadowCaster&quot;</span> &#125;</span><br><span class="line">			Offset <span class="number">1</span>, <span class="number">1</span></span><br><span class="line">			ZWrite On</span><br><span class="line">			ZTest LEqual</span><br><span class="line"></span><br><span class="line">			Fog &#123; Mode Off &#125;</span><br><span class="line">			Cull Off</span><br><span class="line">			Lighting Off</span><br><span class="line"></span><br><span class="line">			CGPROGRAM</span><br><span class="line">			<span class="meta">#<span class="keyword">pragma</span> vertex vert</span></span><br><span class="line">			<span class="meta">#<span class="keyword">pragma</span> fragment frag</span></span><br><span class="line">			<span class="meta">#<span class="keyword">pragma</span> multi_compile_shadowcaster</span></span><br><span class="line">			<span class="meta">#<span class="keyword">pragma</span> fragmentoption ARB_precision_hint_fastest</span></span><br><span class="line">			<span class="meta">#include &quot;UnityCG.cginc&quot;</span></span><br><span class="line">			sampler2D _MainTex;</span><br><span class="line">			<span class="keyword">fixed</span> _Cutoff;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">struct</span> VertexOutput &#123;</span><br><span class="line">				V2F_SHADOW_CASTER;</span><br><span class="line">				float4 uvAndAlpha : TEXCOORD1;</span><br><span class="line">			&#125;;</span><br><span class="line"></span><br><span class="line">			<span class="function">VertexOutput <span class="title">vert</span> (<span class="params">appdata_base v, float4 vertexColor : COLOR</span>)</span> &#123;</span><br><span class="line">				VertexOutput o;</span><br><span class="line">				o.uvAndAlpha = v.texcoord;</span><br><span class="line">				o.uvAndAlpha.a = vertexColor.a;</span><br><span class="line">				TRANSFER_SHADOW_CASTER(o)</span><br><span class="line">				<span class="keyword">return</span> o;</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			<span class="function">float4 <span class="title">frag</span> (<span class="params">VertexOutput i</span>) : SV_Target</span> &#123;</span><br><span class="line">				fixed4 texcol = tex2D(_MainTex, i.uvAndAlpha.xy);</span><br><span class="line">				clip(texcol.a * i.uvAndAlpha.a - _Cutoff);</span><br><span class="line">				SHADOW_CASTER_FRAGMENT(i)</span><br><span class="line">			&#125;</span><br><span class="line">			ENDCG</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	CustomEditor <span class="string">&quot;SpineShaderWithOutlineGUI&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<img src="/2024/04/19/Spine%E6%97%A0%E9%9C%80%E5%85%89%E7%85%A7%E7%9A%84%E9%98%B4%E5%BD%B1%E5%AE%9E%E7%8E%B0/spine-shadow.png" class="">
-
-
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>
@@ -1148,6 +1322,22 @@ Unity is only able to load mdb or portable-pdb symbols. Assets/GameFramework/Lib
     </span>
     <span class="author" itemprop="copyrightHolder">xulinjia</span>
   </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">12k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">44 分钟</span>
+  </span>
+</div>
 <div class="busuanzi-count">
     <span class="post-meta-item" id="busuanzi_container_site_uv">
       <span class="post-meta-item-icon">
@@ -1178,6 +1368,8 @@ Unity is only able to load mdb or portable-pdb symbols. Assets/GameFramework/Lib
     <span>0%</span>
   </div>
 
+  <a href="https://github.com/xulinjia" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
 <noscript>
   <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
 </noscript>
@@ -1201,5 +1393,5 @@ Unity is only able to load mdb or portable-pdb symbols. Assets/GameFramework/Lib
 
 
 
-</body>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":false},"log":false});</script></body>
 </html>
