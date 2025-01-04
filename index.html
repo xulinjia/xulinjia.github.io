@@ -120,18 +120,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">36</span>
+          <span class="site-state-item-count">37</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-count">11</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -148,6 +148,122 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2025/01/04/Rendering-drawcalls%E4%BC%98%E5%8C%96%E6%8A%80%E6%9C%AF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="xulinjia">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="徐麟家的博客">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 徐麟家的博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2025/01/04/Rendering-drawcalls%E4%BC%98%E5%8C%96%E6%8A%80%E6%9C%AF/" class="post-title-link" itemprop="url">Rendering-drawcalls优化技术</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2025-01-04 12:49:44 / 修改时间：23:59:26" itemprop="dateCreated datePublished" datetime="2025-01-04T12:49:44+08:00">2025-01-04</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Unity/" itemprop="url" rel="index"><span itemprop="name">Unity</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Unity/Rendering/" itemprop="url" rel="index"><span itemprop="name">Rendering</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>567</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>2 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="什么是DrawCall？"><a href="#什么是DrawCall？" class="headerlink" title="什么是DrawCall？"></a><em><strong>什么是DrawCall？</strong></em></h3><pre><code>drawcall是渲染一个物体所需要的指令集，由CPU像GPU发送，drawcall中会包含GUP渲染物体所的，  
+如模型顶点数据，法线，纹理贴图等等渲染相关数据。cpu在发送指令期间是不能做其他事情的，这就形成主要的性能瓶颈之一。
+</code></pre>
+<img src="/2025/01/04/Rendering-drawcalls%E4%BC%98%E5%8C%96%E6%8A%80%E6%9C%AF/cpu_calls_gpu.gif" class="">
+<p>推荐下方很有趣的学习资料链接</p>
+<blockquote><p>Render Hell – Book I</p>
+<footer><strong>Simon</strong><cite><a target="_blank" rel="noopener" href="https://simonschreibt.de/gat/renderhell-book1/">game-art-tricks</a></cite></footer></blockquote>
+<h3 id="什么是Batching？"><a href="#什么是Batching？" class="headerlink" title="什么是Batching？"></a><em><strong>什么是Batching？</strong></em></h3><pre><code>由于太多的drawcall，自然会有降低drawcall的说法。在unity中称为Batching，简单说就是通过一定的规则合并drawcall的技术，从而减少渲染调用的次数。
+</code></pre>
+<h3 id="介绍Unity中的主要Batching技术"><a href="#介绍Unity中的主要Batching技术" class="headerlink" title="介绍Unity中的主要Batching技术"></a>介绍Unity中的主要Batching技术</h3><ol>
+<li><p>Dynamic Batching：这是一种古老的技术，目前很多引擎都是支持的。主要的原理是合并通用相同材质（material）的小的网格（meshes）变成一个打的网格，替代原先的多个渲染调用。因此这项技术不适用网格顶点多的模型，比如球迷可能就需要谨慎考虑该技术了。 Static batching 的原理Dynamic Batching类似，只不过是在运行渲染前已经合并好，不像Dynamic是运行时即时合并的。</p>
+</li>
+<li><p>SRP Batcher：这是Unity 2017.1版本引入的新技术。SRP Batcher不会减少Drawcall调用而是把他们变得精简，它会缓存某些渲染状态（材质，颜色，顶点等等）到GPU的某块内存中。所以就没必要把每一个drawcall都发送给GUP。但是对shader编写需要遵循严格的结构规则。比如需要在属性声明中按如下约定规则的结构体。  </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cbuffer UnityPerMaterial &#123;</span><br><span class="line">	<span class="type">float</span> _MainColor;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>GPU Instancing :单个drawcall一次渲染相同的网格（meshes）。需要把带渲染的数据包装成数组，一次性发送给GUP，GPU会遍历这个数组按照次序渲染所有的物体。当然shader的编写结构上会更加严格。在顶点和片元着色器上会多增加一个UNITY_VERTEX_INPUT_INSTANCE_ID，用来对应数据块的内存位置。下面我写了个例子看渲染1000+个物体，使用GPU Instancing只需要3个drawcall。</p>
+</li>
+</ol>
+<img src="/2025/01/04/Rendering-drawcalls%E4%BC%98%E5%8C%96%E6%8A%80%E6%9C%AF/gpuInstance1.png" class="">
+<img src="/2025/01/04/Rendering-drawcalls%E4%BC%98%E5%8C%96%E6%8A%80%E6%9C%AF/gpuInstance2.png" class="">
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -304,7 +420,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-12-20 21:28:23" itemprop="dateModified" datetime="2024-12-20T21:28:23+08:00">2024-12-20</time>
+      <time title="修改时间：2025-01-04 23:35:16" itemprop="dateModified" datetime="2025-01-04T23:35:16+08:00">2025-01-04</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -327,14 +443,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>113</span>
+      <span>646</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
+      <span>2 分钟</span>
     </span>
 </div>
 
@@ -345,10 +461,36 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1 id="1-本文内容概述"><a href="#1-本文内容概述" class="headerlink" title="1.本文内容概述"></a>1.本文内容概述</h1><p>主要分析下UGUI-Button的一些源码，分析点击效果如何实现的效果的细节。最后添加一个拓展实现缩放功能（DoTween插件）。</p>
+          <h1 id="1-本文内容概述"><a href="#1-本文内容概述" class="headerlink" title="1.本文内容概述"></a>1.本文内容概述</h1><pre><code>对于原版本的Button添加按钮缩放比较困难的问题，开发了一个基于dotween的缩放按钮统一插件功能。
+</code></pre>
+<p><em><strong>主要解决的痛点</strong></em></p>
+<ol>
+<li>Button使用Animation实现各种效果，动画必须要求各个按钮节点相同。</li>
+<li>Button的效果比较重量级，对程序来说不好维护</li>
+<li>Button不是很灵活，一般游戏工程的按钮比较简单和统一，不需要如此庞大复制的配置<br><strong>以上几点我开发了一个ScaleButton做完UGUI的补充插件。而且可以不断的按照此方法拓展新的功能。分析下UGUI-Button的一些源码，点击效果如何实现的效果的细节。添加一个拓展实现缩放功能（DoTween插件实现的），并且增加一个ScaleButton的编辑器脚本和一个快捷创建按钮的页签。</strong></li>
+</ol>
 <hr>
-<h2 id="2-Button按钮的代码分析"><a href="#2-Button按钮的代码分析" class="headerlink" title="2.Button按钮的代码分析"></a>2.Button按钮的代码分析</h2><h2 id="3-如何实现点击动画效果"><a href="#3-如何实现点击动画效果" class="headerlink" title="3.如何实现点击动画效果"></a>3.如何实现点击动画效果</h2><hr>
-<h2 id="4-实现一个按钮缩放的功能的按钮–UIScaleButton"><a href="#4-实现一个按钮缩放的功能的按钮–UIScaleButton" class="headerlink" title="4.实现一个按钮缩放的功能的按钮–UIScaleButton"></a>4.实现一个按钮缩放的功能的按钮–UIScaleButton</h2><h3 id="4-1辅助编辑器工具和创建UIScaleButton的快捷方式"><a href="#4-1辅助编辑器工具和创建UIScaleButton的快捷方式" class="headerlink" title="4.1辅助编辑器工具和创建UIScaleButton的快捷方式"></a>4.1辅助编辑器工具和创建UIScaleButton的快捷方式</h3><h3 id="4-2分享源码库地址"><a href="#4-2分享源码库地址" class="headerlink" title="4.2分享源码库地址"></a>4.2<em>分享源码库地址</em></h3>
+<h2 id="2-Button按钮的代码分析"><a href="#2-Button按钮的代码分析" class="headerlink" title="2.Button按钮的代码分析"></a>2.Button按钮的代码分析</h2><p>Button的效果主要是Selectable类的DoStateTransition(SelectionState state, bool instant)方法控制状态的切换。</p>
+<figure class="highlight csharp"><figcaption><span>Selectable.cs</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protected</span> <span class="built_in">enum</span> SelectionState</span><br><span class="line">&#123;</span><br><span class="line">    Normal,         <span class="comment">// 默认状态</span></span><br><span class="line">    Highlighted,    <span class="comment">//鼠标悬浮</span></span><br><span class="line">    Pressed,        <span class="comment">//点击</span></span><br><span class="line">    Selected,       <span class="comment">//选中</span></span><br><span class="line">    Disabled        <span class="comment">//禁用</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<pre><code>我们只要实现这个方法，对应状态做对应的变化就行。
+</code></pre>
+<h2 id="3-如何实现点击动画效果"><a href="#3-如何实现点击动画效果" class="headerlink" title="3.如何实现点击动画效果"></a>3.如何实现点击动画效果</h2><pre><code>使用doTween会让我们的工作变得简单。这里使用dotween的插件来做一个简单的缩放功能。
+</code></pre>
+<hr>
+<h2 id="4-实现一个按钮缩放的功能的按钮–UIScaleButton"><a href="#4-实现一个按钮缩放的功能的按钮–UIScaleButton" class="headerlink" title="4.实现一个按钮缩放的功能的按钮–UIScaleButton"></a>4.实现一个按钮缩放的功能的按钮–UIScaleButton</h2><pre><code>基于上面的分析我们创建UIScaleButton，重写DoStateTransition方法。
+</code></pre>
+<p><strong>注意在OnDestroy时对Dotween进行删除</strong></p>
+<figure class="highlight csharp"><figcaption><span>UIScaleButton.cs</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System.Collections;</span><br><span class="line"><span class="keyword">using</span> System.Collections.Generic;</span><br><span class="line"><span class="keyword">using</span> UnityEngine;</span><br><span class="line"><span class="keyword">using</span> UnityEngine.EventSystems;</span><br><span class="line"><span class="keyword">using</span> UnityEngine.UI;</span><br><span class="line"><span class="keyword">using</span> DG.Tweening;</span><br><span class="line"><span class="keyword">using</span> Unity.VisualScripting;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">Rainbow.UI</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">UIScaleButton</span> : <span class="title">Button</span></span><br><span class="line">    &#123;</span><br><span class="line">        [<span class="meta">SerializeField</span>]</span><br><span class="line">        <span class="keyword">public</span> <span class="built_in">float</span> m_ScaleUp = <span class="number">1f</span>;</span><br><span class="line">        [<span class="meta">SerializeField</span>]</span><br><span class="line">        <span class="keyword">public</span> <span class="built_in">float</span> m_ScaleDown = <span class="number">0.95f</span>;</span><br><span class="line">        [<span class="meta">SerializeField</span>]</span><br><span class="line">        Transform m_Target;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">private</span> <span class="built_in">float</span> transScale = <span class="number">1f</span>;</span><br><span class="line"></span><br><span class="line">        Tween tween;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">protected</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">DoStateTransition</span>(<span class="params">SelectionState state, <span class="built_in">bool</span> instant</span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">base</span>.DoStateTransition(state, instant);</span><br><span class="line">            <span class="keyword">switch</span> (state)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">case</span> SelectionState.Normal:</span><br><span class="line">                    transScale = m_ScaleUp;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> SelectionState.Pressed:</span><br><span class="line">                    transScale = m_ScaleDown;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="literal">default</span>:</span><br><span class="line">                    transScale = m_ScaleUp;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            DoScale();</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">DoScale</span>()</span></span><br><span class="line">        &#123;</span><br><span class="line">            Transform tweenTrans = m_Target ? m_Target : transform;</span><br><span class="line">            tween = tweenTrans.DOScale(Vector3.one * transScale, <span class="number">0.3f</span>).SetEase(Ease.OutBack);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">protected</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">OnDestroy</span>()</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">base</span>.OnDestroy();</span><br><span class="line">            tween.Kill();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>另外为UIScaleButton添加一个编辑器脚本。</p>
+<figure class="highlight csharp"><figcaption><span>UIScaleButtonEditor.cs</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> UnityEditor;</span><br><span class="line"><span class="keyword">using</span> UnityEditor.UI;</span><br><span class="line"><span class="keyword">using</span> UnityEngine;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">Rainbow.UI</span></span><br><span class="line">&#123;</span><br><span class="line">    [<span class="meta">CustomEditor(typeof(UIScaleButton))</span>]</span><br><span class="line">    [<span class="meta">DisallowMultipleComponent</span>]</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">UIScaleButtonEditor</span> : <span class="title">ButtonEditor</span></span><br><span class="line">    &#123;</span><br><span class="line">        SerializedProperty m_ScaleUpProperty;</span><br><span class="line">        SerializedProperty m_ScaleDownProperty;</span><br><span class="line">        SerializedProperty m_TargetProperty;</span><br><span class="line">        <span class="function"><span class="keyword">protected</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">OnEnable</span>()</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">base</span>.OnEnable();</span><br><span class="line">            m_ScaleUpProperty = serializedObject.FindProperty(<span class="string">&quot;m_ScaleUp&quot;</span>);</span><br><span class="line">            m_ScaleDownProperty = serializedObject.FindProperty(<span class="string">&quot;m_ScaleDown&quot;</span>);</span><br><span class="line">            m_TargetProperty = serializedObject.FindProperty(<span class="string">&quot;m_Target&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">OnInspectorGUI</span>()</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">base</span>.OnInspectorGUI();</span><br><span class="line">            serializedObject.Update();</span><br><span class="line">            EditorGUILayout.PropertyField(m_ScaleUpProperty);</span><br><span class="line">            EditorGUILayout.PropertyField(m_ScaleDownProperty);</span><br><span class="line">            EditorGUILayout.PropertyField(m_TargetProperty);</span><br><span class="line">            serializedObject.ApplyModifiedProperties();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>添加一个快捷创建UIScaleButton的选项。</p>
+<figure class="highlight csharp"><figcaption><span>UGUIExt_CreateObjectMenu.cs</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> TMPro.EditorUtilities;</span><br><span class="line"><span class="keyword">using</span> UnityEditor;</span><br><span class="line"><span class="keyword">using</span> UnityEngine;</span><br><span class="line"><span class="keyword">using</span> UnityEngine.UI;</span><br><span class="line"><span class="keyword">namespace</span> <span class="title">Rainbow.UI</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title">UGUIExt_CreateObjectMenu</span> </span><br><span class="line">    &#123;</span><br><span class="line">        [<span class="meta">MenuItem(<span class="string">&quot;GameObject/UI/ScaleButton - TextMeshPro&quot;</span>, false, 2031)</span>]</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">AddButton</span>(<span class="params">MenuCommand menuCommand</span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">            TMPro_CreateObjectMenu.AddButton(menuCommand);</span><br><span class="line">           </span><br><span class="line">            <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; Selection.gameObjects.Length; i++)</span><br><span class="line">            &#123;</span><br><span class="line">                 <span class="built_in">string</span> selectName = Selection.gameObjects[i].name;</span><br><span class="line">                 <span class="keyword">if</span>(selectName == <span class="string">&quot;Button&quot;</span>)</span><br><span class="line">                 &#123; </span><br><span class="line">                    GameObject tg = Selection.gameObjects[i];</span><br><span class="line">                    tg.name = <span class="string">&quot;UIScaleButton&quot;</span>;</span><br><span class="line">                    GameObject.DestroyImmediate(tg.GetComponent&lt;Button&gt;());</span><br><span class="line">                    tg.AddComponent&lt;UIScaleButton&gt;();</span><br><span class="line">                 &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="4-效果"><a href="#4-效果" class="headerlink" title="4.效果"></a>4.效果</h2><img src="/2024/10/23/UGUI%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-%E6%8B%93%E5%B1%95Button%E7%82%B9%E5%87%BB%E7%BC%A9%E6%94%BE%E5%8A%9F%E8%83%BD/ScaleBtn1.gif" class="">
+<img src="/2024/10/23/UGUI%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-%E6%8B%93%E5%B1%95Button%E7%82%B9%E5%87%BB%E7%BC%A9%E6%94%BE%E5%8A%9F%E8%83%BD/ScaleBtn2.png" class="">
+<img src="/2024/10/23/UGUI%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-%E6%8B%93%E5%B1%95Button%E7%82%B9%E5%87%BB%E7%BC%A9%E6%94%BE%E5%8A%9F%E8%83%BD/ScaleBtn3.png" class="">
       
     </div>
 
@@ -454,7 +596,7 @@
           <p>unity使用packageManger方式创建需要依赖代码包。对我们想研究查看和修改UGUI源码很不方便，故想搭建一个可调试，修改UGUI源码的的unity工程。当然再实际开发中我们并不建议直接修改源码！</p>
 <h2 id="如何创建一个可调试可修改的UGUI源码工程？"><a href="#如何创建一个可调试可修改的UGUI源码工程？" class="headerlink" title="如何创建一个可调试可修改的UGUI源码工程？"></a><em>如何创建一个可调试可修改的UGUI源码工程？</em></h2><ol>
 <li>创建一个unity工程<img src="/2024/08/20/UGUI%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-%E5%B7%A5%E7%A8%8B%E6%90%AD%E5%BB%BA/%E5%B7%A5%E7%A8%8B%E6%90%AD%E5%BB%BA1.png" class=""></li>
-<li>等初始化完毕后拷贝UGUI_CodeAnalyse&#x2F;Library&#x2F;PackageCache&#x2F;<a href="mailto:&#99;&#x6f;&#109;&#46;&#117;&#x6e;&#x69;&#116;&#x79;&#x2e;&#117;&#103;&#x75;&#x69;&#64;&#x31;&#46;&#x30;&#x2e;&#48;">&#99;&#x6f;&#109;&#46;&#117;&#x6e;&#x69;&#116;&#x79;&#x2e;&#117;&#103;&#x75;&#x69;&#64;&#x31;&#46;&#x30;&#x2e;&#48;</a>文件夹至UGUI_CodeAnalyse&#x2F;Packages&#x2F;<a href="mailto:&#99;&#x6f;&#x6d;&#46;&#x75;&#110;&#105;&#x74;&#121;&#x2e;&#x75;&#103;&#117;&#x69;&#64;&#49;&#x2e;&#x30;&#x2e;&#48;">&#99;&#x6f;&#x6d;&#46;&#x75;&#110;&#105;&#x74;&#121;&#x2e;&#x75;&#103;&#117;&#x69;&#64;&#49;&#x2e;&#x30;&#x2e;&#48;</a>，请看下图<img src="/2024/08/20/UGUI%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-%E5%B7%A5%E7%A8%8B%E6%90%AD%E5%BB%BA/%E5%B7%A5%E7%A8%8B%E6%90%AD%E5%BB%BA2.png" class="">
+<li>等初始化完毕后拷贝UGUI_CodeAnalyse&#x2F;Library&#x2F;PackageCache&#x2F;<a href="mailto:&#99;&#x6f;&#x6d;&#x2e;&#x75;&#x6e;&#x69;&#x74;&#x79;&#46;&#117;&#x67;&#x75;&#x69;&#x40;&#49;&#x2e;&#x30;&#46;&#x30;">&#99;&#x6f;&#x6d;&#x2e;&#x75;&#x6e;&#x69;&#x74;&#x79;&#46;&#117;&#x67;&#x75;&#x69;&#x40;&#49;&#x2e;&#x30;&#46;&#x30;</a>文件夹至UGUI_CodeAnalyse&#x2F;Packages&#x2F;<a href="mailto:&#99;&#111;&#109;&#x2e;&#117;&#x6e;&#x69;&#x74;&#121;&#x2e;&#117;&#x67;&#x75;&#x69;&#x40;&#49;&#46;&#x30;&#x2e;&#48;">&#99;&#111;&#109;&#x2e;&#117;&#x6e;&#x69;&#x74;&#121;&#x2e;&#117;&#x67;&#x75;&#x69;&#x40;&#49;&#46;&#x30;&#x2e;&#48;</a>，请看下图<img src="/2024/08/20/UGUI%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-%E5%B7%A5%E7%A8%8B%E6%90%AD%E5%BB%BA/%E5%B7%A5%E7%A8%8B%E6%90%AD%E5%BB%BA2.png" class="">
 <img src="/2024/08/20/UGUI%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-%E5%B7%A5%E7%A8%8B%E6%90%AD%E5%BB%BA/%E5%B7%A5%E7%A8%8B%E6%90%AD%E5%BB%BA3.png" class=""></li>
 <li>测试，脚本编辑器打开修改Button.cs中的Press()方法。<img src="/2024/08/20/UGUI%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-%E5%B7%A5%E7%A8%8B%E6%90%AD%E5%BB%BA/%E5%B7%A5%E7%A8%8B%E6%90%AD%E5%BB%BA4.png" class=""></li>
 <li>scene中创建一个按钮，点击按钮，打印出日志”Hi I click”。<img src="/2024/08/20/UGUI%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-%E5%B7%A5%E7%A8%8B%E6%90%AD%E5%BB%BA/%E5%B7%A5%E7%A8%8B%E6%90%AD%E5%BB%BA5.png" class=""></li>
@@ -1171,139 +1313,6 @@ LayoutElement组件，默认的UI组件Image，Text等都是实现ILayoutElement
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/07/05/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%A4%A7%E8%AF%9D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%80%BB%E7%BB%93-%E8%A1%8C%E4%B8%BA%E5%9E%8B-%E8%BF%AD%E4%BB%A3%E5%99%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="xulinjia">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="徐麟家的博客">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 徐麟家的博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/07/05/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%A4%A7%E8%AF%9D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%80%BB%E7%BB%93-%E8%A1%8C%E4%B8%BA%E5%9E%8B-%E8%BF%AD%E4%BB%A3%E5%99%A8/" class="post-title-link" itemprop="url">设计模式-大话设计模式总结-行为型->迭代器</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2024-07-05 09:28:29" itemprop="dateCreated datePublished" datetime="2024-07-05T09:28:29+08:00">2024-07-05</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-10-23 23:38:07" itemprop="dateModified" datetime="2024-10-23T23:38:07+08:00">2024-10-23</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%A1%8C%E4%B8%BA%E5%9E%8B/" itemprop="url" rel="index"><span itemprop="name">行为型</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>950</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>3 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <img src="/2024/07/05/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%A4%A7%E8%AF%9D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%80%BB%E7%BB%93-%E8%A1%8C%E4%B8%BA%E5%9E%8B-%E8%BF%AD%E4%BB%A3%E5%99%A8/%E8%A1%8C%E4%B8%BA%E5%9E%8B2-%E8%BF%AD%E4%BB%A3%E5%99%A8.png" class="">
-<h3>点评</h3>
-    迭代器是很好的访问聚集对象的方法，为遍历不同的聚集结构提供如开始、下一个、是否结束、当前哪一项等统一的接口。/br
-实现迭代器模式的实现，应该把重点放在两个点：/br
-1、实现迭代器接口的类方法
-2、聚集类存放原始数据，同时有一个方法可以创建出某个迭代器实例（为什么是某个，迭代器可以有多种实现，比如正序的迭代器，倒叙迭代器，某些赛选功能的迭代器等等）。
-
-<h3>迭代器在语言中的实现</h3>
-    迭代器在各种高级语言中都以嵌入到语法中，如lua中的选好 for k,v in ipairs(table) do end ;C# 中 foreach (var item in list) { }等等。</br>
-而且 .NET的迭代器实现了上述的迭代器接口。 也就是我们不需要设计上述的类方法了。直接使用IEumerator（顶层迭代器抽象上方1） 和 IEnumerable（顶层创建迭代器类上方2）、
-C#中foreach语法糖，会被编译器实现未一个while循环语法，以访问迭代器中的元素。
-<h3>Unity携程中的迭代器</h3>
-    <i>MonoBehaviour.StartCoroutine接收的参数为什么是IEnumerator，IEnumerator和协程有什么关系？</i>
-<h4>知识点1:迭代器函数</h4>
-    yield是C#的关键字，其实就是快速定义迭代器的语法糖。只要是yield出现在其中的方法就会被编译器自动编译成一个迭代器，对于这样的函数可以称之为迭代器函数。迭代器函数的返回值就是自动生成的迭代器类的一个对象。
-    <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Test</span> : <span class="title">MonoBehaviour</span></span><br><span class="line">&#123;</span><br><span class="line">    Animator animator = <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Start</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        IEnumerator enumerator = DoSomeThing();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span>(enumerator.MoveNext())</span><br><span class="line">        &#123;</span><br><span class="line">            Debug.Log(<span class="string">&quot;T:&quot;</span>enumerator.Current);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function">IEnumerator <span class="title">DoSomeThing</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">yield</span> <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">yield</span> <span class="keyword">return</span> <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">yield</span> <span class="keyword">return</span> <span class="number">3</span>;</span><br><span class="line">        <span class="function"><span class="keyword">yield</span> <span class="keyword">return</span> <span class="keyword">new</span> <span class="title">WaitForSeconds</span>(<span class="params"><span class="number">0.5f</span></span>)</span>;</span><br><span class="line">        <span class="keyword">yield</span> <span class="keyword">return</span> <span class="string">&quot;haha&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-    <i>上方输出是：<br></i>
-            T:1<br>
-            T:2<br>
-            T:3<br>
-            T:UnityEngine.WaitForSeconds</br>
-            T:haha</br>
-    
-<h4>知识点2:Unity协程机制</h4>
-    下方文字引用一位网友的理解，原理描述得比较清晰！
-    <blockquote><p>Unity每通过MonoBehaviour.StartCoroutine启动一个协程，就会获得一个IEnumerator（StartCoroutine的参数就是IEnumerator，参数是方法名的重载版本也会通过反射拿到该方法对应的IEnumerator）。并在它的游戏循环中，根据条件判断是否要执行MoveNext方法。而这个条件就是根据IEnumerator的Current属性获得的，即yield return返回的值。</br><br>在启动一个协程时，Unity会先调用得到的IEnumerator的MoveNext一次，以拿到IEnumerator的Current值。所以每启动一个协程，协程函数会立即执行到第一个yield return处然后“停住”。<br>对于不同的Current类型（一般是YieldInstruction的子类），Unity已做好了一些默认处理，比如:<br><br>如果Current是null，就相当于什么也不做。在下一次游戏循环中，就会调用MoveNext。所以yield return null就起到了等待一帧的作用</br><br>如果Current是WaitForSeconds类型，Unity会获取它的等待时间，每次游戏循环中都会判断时间是否到了，只有时间到了才会调用MoveNext。所以yield return WaitForSeconds就起到了等待指定时间的作用</br><br>如果Current是UnityWebRequestAsyncOperation类型，它是AsyncOperation的子类，而AsyncOperation有isDone属性，表示操作是否完成，只有isDone为true时，Unity才会调用MoveNext。对于UnityWebRequestAsyncOperation而言，只有请求完成了，才会将isDone属性设置为true。</p>
-<footer><strong>Seth Godin</strong><cite><a target="_blank" rel="noopener" href="https://www.cnblogs.com/iwiniwin/p/14878498.html">IWINIWIN</a></cite></footer></blockquote>
-<h4>unity文档中的一些参考</h4>
-<a href="https://docs.unity3d.com/cn/current/Manual/ExecutionOrder.html" title="" target="">untiy官方文档关于执行顺序的一些说明 ExecutionOrder</a>
-<img src="/2024/07/05/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%A4%A7%E8%AF%9D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%80%BB%E7%BB%93-%E8%A1%8C%E4%B8%BA%E5%9E%8B-%E8%BF%AD%E4%BB%A3%E5%99%A8/111.jpg" class="">
-<img src="/2024/07/05/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%A4%A7%E8%AF%9D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%80%BB%E7%BB%93-%E8%A1%8C%E4%B8%BA%E5%9E%8B-%E8%BF%AD%E4%BB%A3%E5%99%A8/222.jpg" class="">
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
@@ -1316,7 +1325,7 @@ C#中foreach语法糖，会被编译器实现未一个while循环语法，以访
 
   <div class="copyright">
     &copy; 
-    <span itemprop="copyrightYear">2024</span>
+    <span itemprop="copyrightYear">2025</span>
     <span class="with-love">
       <i class="fa fa-heart"></i>
     </span>
@@ -1328,14 +1337,14 @@ C#中foreach语法糖，会被编译器实现未一个while循环语法，以访
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">12k</span>
+    <span title="站点总字数">13k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">44 分钟</span>
+    <span title="站点阅读时长">48 分钟</span>
   </span>
 </div>
 <div class="busuanzi-count">
