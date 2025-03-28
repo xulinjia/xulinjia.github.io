@@ -120,7 +120,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">37</span>
+          <span class="site-state-item-count">38</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -148,6 +148,116 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2025/03/28/%E6%AC%A7%E6%8B%89%E5%8F%98%E6%8D%A2%E5%92%8C%E4%B8%87%E5%90%91%E9%94%81/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="xulinjia">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="徐麟家的博客">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 徐麟家的博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2025/03/28/%E6%AC%A7%E6%8B%89%E5%8F%98%E6%8D%A2%E5%92%8C%E4%B8%87%E5%90%91%E9%94%81/" class="post-title-link" itemprop="url">欧拉变换和万向锁</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2025-03-28 16:55:28" itemprop="dateCreated datePublished" datetime="2025-03-28T16:55:28+08:00">2025-03-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-03-29 00:19:15" itemprop="dateModified" datetime="2025-03-29T00:19:15+08:00">2025-03-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Unity/" itemprop="url" rel="index"><span itemprop="name">Unity</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Unity/%E6%9D%82%E9%A1%B9/" itemprop="url" rel="index"><span itemprop="name">杂项</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>495</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>2 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="欧拉变换"><a href="#欧拉变换" class="headerlink" title="欧拉变换"></a>欧拉变换</h3><p>  由瑞士数学家欧拉提出，主要描述3d空间中对物体的旋转。比如 x轴旋转30°，y轴旋转0°，z轴旋转60°，把这三个组合到一起，对一个3d空间中的物体做一定的旋转（注意:旋转是有一个既定的顺序的，比如 y-&gt;x-&gt;z）。 </p>
+<img src="/2025/03/28/%E6%AC%A7%E6%8B%89%E5%8F%98%E6%8D%A2%E5%92%8C%E4%B8%87%E5%90%91%E9%94%81/Unityolj.png" class="">
+<h3 id="万向锁"><a href="#万向锁" class="headerlink" title="万向锁"></a>万向锁</h3><p>  <em><strong>在unity中出现万向锁的问题：设置x旋转90°，y和z只能旋转同一个方向。</strong></em><br>  <img src="/2025/03/28/%E6%AC%A7%E6%8B%89%E5%8F%98%E6%8D%A2%E5%92%8C%E4%B8%87%E5%90%91%E9%94%81/Unitywxs.gif" class=""><br>  万向锁的问题是欧拉变换在某些特定的角度，产生一个维度的丢失！主要是因为欧拉旋转的机制是存在层级关系，也就是说定义的旋转顺序（y-&gt;x-&gt;z）。 上图的视频中虽然用户拖动界面先假定了x是定格在90°，然后去旋转y和z，<br>  看上去移动y和z是在一个维度变换的。但是实际欧拉变换描述的是一种状态，并不是当前情况下的旋转，它还是按y-&gt;x-&gt;z这样的顺序执行的。先让y旋转了任意θ角度之后，再旋转x轴90°（或者-90°），这个时候z轴会跟着x的旋转正好和y轴的方法重合了。最后旋转z轴等于是再旋转x轴，z轴的维度消失了。<br>  <em><strong>在实时渲染中通过公式对其解释</strong></em><br>  yxz三个轴上的旋转可以表示为三个矩阵相乘的形式 <strong>（注意有顺序哦，矩阵乘法是不满足交换律的）</strong>。具体解释如下<br>  <img src="/2025/03/28/%E6%AC%A7%E6%8B%89%E5%8F%98%E6%8D%A2%E5%92%8C%E4%B8%87%E5%90%91%E9%94%81/wxs_desc.png" class=""></p>
+<blockquote><p>特殊的矩阵变换和操作</p>
+<footer><strong>Real-TimeRendering4th</strong><cite><a target="_blank" rel="noopener" href="https://www.wolai.com/fKQBgXLcmADQ79eAuYLaG7">www.wolai.com/fKQBgXLcmADQ79eAuYLaG7</a></cite></footer></blockquote>
+
+<h3 id="万向锁有什么办法解决？"><a href="#万向锁有什么办法解决？" class="headerlink" title="万向锁有什么办法解决？"></a>万向锁有什么办法解决？</h3><p>   欧拉变换中无法解决，只能尽可能的避免，第二个顺序旋转轴（这里是x）尽可能避免90°（-90°）的旋转。<br>   如果要彻底解决万向锁问题，只能换一个方式–<strong>四元数</strong>。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -185,9 +295,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2025-01-04 12:49:44 / 修改时间：23:59:26" itemprop="dateCreated datePublished" datetime="2025-01-04T12:49:44+08:00">2025-01-04</time>
+      <time title="创建时间：2025-01-04 12:49:44" itemprop="dateCreated datePublished" datetime="2025-01-04T12:49:44+08:00">2025-01-04</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-03-28 17:54:35" itemprop="dateModified" datetime="2025-03-28T17:54:35+08:00">2025-03-28</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -596,7 +712,7 @@
           <p>unity使用packageManger方式创建需要依赖代码包。对我们想研究查看和修改UGUI源码很不方便，故想搭建一个可调试，修改UGUI源码的的unity工程。当然再实际开发中我们并不建议直接修改源码！</p>
 <h2 id="如何创建一个可调试可修改的UGUI源码工程？"><a href="#如何创建一个可调试可修改的UGUI源码工程？" class="headerlink" title="如何创建一个可调试可修改的UGUI源码工程？"></a><em>如何创建一个可调试可修改的UGUI源码工程？</em></h2><ol>
 <li>创建一个unity工程<img src="/2024/08/20/UGUI%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-%E5%B7%A5%E7%A8%8B%E6%90%AD%E5%BB%BA/%E5%B7%A5%E7%A8%8B%E6%90%AD%E5%BB%BA1.png" class=""></li>
-<li>等初始化完毕后拷贝UGUI_CodeAnalyse&#x2F;Library&#x2F;PackageCache&#x2F;<a href="mailto:&#99;&#x6f;&#x6d;&#x2e;&#x75;&#x6e;&#x69;&#x74;&#x79;&#46;&#117;&#x67;&#x75;&#x69;&#x40;&#49;&#x2e;&#x30;&#46;&#x30;">&#99;&#x6f;&#x6d;&#x2e;&#x75;&#x6e;&#x69;&#x74;&#x79;&#46;&#117;&#x67;&#x75;&#x69;&#x40;&#49;&#x2e;&#x30;&#46;&#x30;</a>文件夹至UGUI_CodeAnalyse&#x2F;Packages&#x2F;<a href="mailto:&#99;&#111;&#109;&#x2e;&#117;&#x6e;&#x69;&#x74;&#121;&#x2e;&#117;&#x67;&#x75;&#x69;&#x40;&#49;&#46;&#x30;&#x2e;&#48;">&#99;&#111;&#109;&#x2e;&#117;&#x6e;&#x69;&#x74;&#121;&#x2e;&#117;&#x67;&#x75;&#x69;&#x40;&#49;&#46;&#x30;&#x2e;&#48;</a>，请看下图<img src="/2024/08/20/UGUI%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-%E5%B7%A5%E7%A8%8B%E6%90%AD%E5%BB%BA/%E5%B7%A5%E7%A8%8B%E6%90%AD%E5%BB%BA2.png" class="">
+<li>等初始化完毕后拷贝UGUI_CodeAnalyse&#x2F;Library&#x2F;PackageCache&#x2F;<a href="mailto:&#99;&#x6f;&#x6d;&#x2e;&#117;&#x6e;&#105;&#x74;&#x79;&#x2e;&#x75;&#x67;&#x75;&#x69;&#x40;&#49;&#46;&#x30;&#46;&#48;">&#99;&#x6f;&#x6d;&#x2e;&#117;&#x6e;&#105;&#x74;&#x79;&#x2e;&#x75;&#x67;&#x75;&#x69;&#x40;&#49;&#46;&#x30;&#46;&#48;</a>文件夹至UGUI_CodeAnalyse&#x2F;Packages&#x2F;<a href="mailto:&#x63;&#x6f;&#109;&#46;&#x75;&#x6e;&#105;&#116;&#x79;&#x2e;&#117;&#103;&#x75;&#105;&#x40;&#x31;&#x2e;&#48;&#x2e;&#48;">&#x63;&#x6f;&#109;&#46;&#x75;&#x6e;&#105;&#116;&#x79;&#x2e;&#117;&#103;&#x75;&#105;&#x40;&#x31;&#x2e;&#48;&#x2e;&#48;</a>，请看下图<img src="/2024/08/20/UGUI%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-%E5%B7%A5%E7%A8%8B%E6%90%AD%E5%BB%BA/%E5%B7%A5%E7%A8%8B%E6%90%AD%E5%BB%BA2.png" class="">
 <img src="/2024/08/20/UGUI%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-%E5%B7%A5%E7%A8%8B%E6%90%AD%E5%BB%BA/%E5%B7%A5%E7%A8%8B%E6%90%AD%E5%BB%BA3.png" class=""></li>
 <li>测试，脚本编辑器打开修改Button.cs中的Press()方法。<img src="/2024/08/20/UGUI%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-%E5%B7%A5%E7%A8%8B%E6%90%AD%E5%BB%BA/%E5%B7%A5%E7%A8%8B%E6%90%AD%E5%BB%BA4.png" class=""></li>
 <li>scene中创建一个按钮，点击按钮，打印出日志”Hi I click”。<img src="/2024/08/20/UGUI%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-%E5%B7%A5%E7%A8%8B%E6%90%AD%E5%BB%BA/%E5%B7%A5%E7%A8%8B%E6%90%AD%E5%BB%BA5.png" class=""></li>
@@ -1198,121 +1314,6 @@ LayoutElement组件，默认的UI组件Image，Text等都是实现ILayoutElement
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/07/20/Uniyt%E8%84%9A%E6%9C%AC%E8%AE%BE%E7%BD%AESpriteAtlas%E5%B1%9E%E6%80%A7%E7%9A%84%E7%9A%84%E4%B8%80%E4%BA%9B%E6%8A%80%E5%B7%A7/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="xulinjia">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="徐麟家的博客">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 徐麟家的博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/07/20/Uniyt%E8%84%9A%E6%9C%AC%E8%AE%BE%E7%BD%AESpriteAtlas%E5%B1%9E%E6%80%A7%E7%9A%84%E7%9A%84%E4%B8%80%E4%BA%9B%E6%8A%80%E5%B7%A7/" class="post-title-link" itemprop="url">Uniyt脚本设置SpriteAtlas属性的的一些技巧</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2024-07-20 18:39:42" itemprop="dateCreated datePublished" datetime="2024-07-20T18:39:42+08:00">2024-07-20</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-10-23 23:38:07" itemprop="dateModified" datetime="2024-10-23T23:38:07+08:00">2024-10-23</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Unity/" itemprop="url" rel="index"><span itemprop="name">Unity</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Unity/%E6%9D%82%E9%A1%B9/" itemprop="url" rel="index"><span itemprop="name">杂项</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>380</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3>通过批处理脚本设置图集的一些参数</h3>
-    一下代码可以自动找到相关的目录下的图集，根据统一的参数配置一键设置好图集参数，并且立即打包所有图集，开发中比较实用的。
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">AtlasCompressEditor</span></span><br><span class="line">&#123;</span><br><span class="line">    [<span class="meta">MenuItem(<span class="string">&quot;Package/Atlas/图集压缩_设置矫正&quot;</span>, priority = 1003)</span>]</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">AltasCompress</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">string</span>[] guids = AssetDatabase.FindAssets(<span class="string">&quot;t:spriteatlas&quot;</span>,<span class="keyword">new</span>[] &#123;<span class="string">&quot;Assets/Art/UIAtlas&quot;</span>&#125;);</span><br><span class="line">        <span class="keyword">foreach</span> (<span class="keyword">var</span> id <span class="keyword">in</span> guids)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">var</span> p = AssetDatabase.GUIDToAssetPath(id);</span><br><span class="line">            SpriteAtlas atlas = AssetDatabase.LoadAssetAtPath(p, <span class="keyword">typeof</span>(SpriteAtlas)) <span class="keyword">as</span> SpriteAtlas;</span><br><span class="line">            atlas.SetIncludeInBuild(<span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">var</span> packSetting = atlas.GetPackingSettings();</span><br><span class="line">            packSetting.blockOffset = <span class="number">1</span>;</span><br><span class="line">            packSetting.enableRotation = <span class="literal">false</span>;</span><br><span class="line">            packSetting.padding = <span class="number">2</span>;</span><br><span class="line">            packSetting.enableTightPacking = <span class="literal">false</span>;</span><br><span class="line">            atlas.SetPackingSettings(packSetting);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">var</span> texture_setting = atlas.GetTextureSettings();</span><br><span class="line">            texture_setting.generateMipMaps = <span class="literal">false</span>;</span><br><span class="line">            texture_setting.filterMode = FilterMode.Bilinear;</span><br><span class="line">            atlas.SetTextureSettings(texture_setting);</span><br><span class="line"></span><br><span class="line">            TextureImporterPlatformSettings android_setting = <span class="keyword">new</span> TextureImporterPlatformSettings();</span><br><span class="line">            android_setting.name = BuildPipeline.GetBuildTargetName(BuildTarget.Android);</span><br><span class="line">            android_setting.overridden = <span class="literal">true</span>;</span><br><span class="line">            android_setting.textureCompression = TextureImporterCompression.Compressed;</span><br><span class="line">            android_setting.format = TextureImporterFormat.ASTC_6x6;</span><br><span class="line"></span><br><span class="line">            TextureImporterPlatformSettings phone_setting = <span class="keyword">new</span> TextureImporterPlatformSettings();</span><br><span class="line">            phone_setting.name = BuildPipeline.GetBuildTargetName(BuildTarget.iOS);</span><br><span class="line">            phone_setting.overridden = <span class="literal">true</span>;</span><br><span class="line">            phone_setting.textureCompression = TextureImporterCompression.Compressed;</span><br><span class="line">            phone_setting.format = TextureImporterFormat.ASTC_6x6;</span><br><span class="line">            atlas.SetPlatformSettings(android_setting);</span><br><span class="line">            atlas.SetPlatformSettings(phone_setting);</span><br><span class="line"></span><br><span class="line">            AssetDatabase.SaveAssetIfDirty(atlas);</span><br><span class="line">        &#125;</span><br><span class="line">        SpriteAtlasUtility.PackAllAtlases(EditorUserBuildSettings.activeBuildTarget);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h4>解释和要点</h4>
-    1、AssetDatabase.FindAssets中可以增加对应的图集目录，代码会依次设置</br>
-    2、SpriteAtlas.SetPackingSettings 设置图片资源的相关格式,图集也是一张图片可以使用图片压缩格式</br>
-    3、SpriteAtlasUtility.PackAllAtlases 打包所有的图集</br>
-    4、Sprite Atlas 版本 1 和 Sprite Atlas 版本 2 不兼容</br>
-    5、本代码只能用于spriteatlasv1版本的图集设置，关于新版本的v2图集目前官方不支持通过脚本编辑 Sprite Atlas 版本 2，至此2024/07还未提供。</br>
-    博主也是查了好多网上的资料才发现这点的,不是很明显,到目前为止博主还是建议使用Sprite Atlas 版本 1。希望能帮助到各位开发者。官网截图如下:</br>
-    <img src="/2024/07/20/Uniyt%E8%84%9A%E6%9C%AC%E8%AE%BE%E7%BD%AESpriteAtlas%E5%B1%9E%E6%80%A7%E7%9A%84%E7%9A%84%E4%B8%80%E4%BA%9B%E6%8A%80%E5%B7%A7/unity_doc.jpg" class="">
-
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
@@ -1337,14 +1338,14 @@ LayoutElement组件，默认的UI组件Image，Text等都是实现ILayoutElement
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">13k</span>
+    <span title="站点总字数">14k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">48 分钟</span>
+    <span title="站点阅读时长">49 分钟</span>
   </span>
 </div>
 <div class="busuanzi-count">
